@@ -1,10 +1,5 @@
 ﻿using System;
-using System.CodeDom;
 using System.Collections.Generic;
-using System.Linq;
-using System.Management.Instrumentation;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Game_v2
 {
@@ -12,6 +7,7 @@ namespace Game_v2
     public class Area
     {
         List<Coord> cordlist;
+
         public Area(List<Coord> coords)
         {
             cordlist = new List<Coord>(coords);
@@ -88,20 +84,20 @@ namespace Game_v2
 
                     case "topD":
                         Console.CursorTop--;
-                        Console.Write("D");
+                        Console.Write("/");
                         break;
 
                     case "leftD":
                         Console.CursorLeft--;
-                        Console.Write("D");
+                        Console.Write("/");
                         break;
                     case "rightD":
                         Console.CursorLeft++;
-                        Console.Write("D");
+                        Console.Write("/");
                         break;
                     case "bottomD":
                         Console.CursorTop++;
-                        Console.Write("D");
+                        Console.Write("/");
                         break;
 
 
@@ -112,6 +108,15 @@ namespace Game_v2
 
                 }
             }
+        }
+
+        public Coord getstart()
+        {
+            foreach (Coord c in cordlist)
+            {
+                if (c.getedgetype() == "start") return c;
+            }
+            return null;
         }
 
     }
@@ -142,6 +147,18 @@ namespace Game_v2
             return "none";
         }
     }
+    public class startpoint : Coord
+    {
+        startpoint(int inx, int iny) : base(inx, iny)
+        {
+
+        }
+        public override string getedgetype()
+        {
+            return "start";
+        }
+    }
+
     public class edge : Coord
     {
         protected string edgetype;
@@ -170,12 +187,13 @@ namespace Game_v2
         }
         public override string getedgetype()
         {
-            return base.getedgetype()+"D";
+            return base.getedgetype() + "D";
         }
     }
-    abstract class item : Coord
+    public class item : Coord
     {
-        static void print(string[] input)
+        protected string name;
+        public static void print(string[] input)
         {
             Console.CursorTop = 1;
             Console.CursorLeft = 40;
@@ -186,7 +204,27 @@ namespace Game_v2
                 Console.CursorTop++;
             }
         }
-        public item(int inx,int iny) : base(inx, iny)
+        public static void print(List<inventoryitem> input)
+        {
+            int i = 0;
+            Console.CursorTop = 1;
+            Console.CursorLeft = 40;
+            foreach (inventoryitem strings in input)
+            {
+                Console.Write(i + ":  ");
+                Console.Write(strings.getdescription());
+                Console.CursorLeft = 40;
+                Console.CursorTop++;
+                i++;
+            }
+        }
+        public static void print(string input)
+        {
+            Console.CursorTop = 1;
+            Console.CursorLeft = 40;
+            Console.Write(input);
+        }
+        public item(int inx, int iny) : base(inx, iny)
         {
 
         }
@@ -195,19 +233,139 @@ namespace Game_v2
             return "item";
         }
 
-        public abstract void interact();
+        public virtual void interact()
+        {
+            item.print("generic item");
+        }
     }
-    
     public class chest : item
     {
-        public chest(int inx, int iny) : base(inx, iny)
+        private List<inventoryitem> items;
+        public chest(int inx, int iny, List<inventoryitem> inventory) : base(inx, iny)
         {
-            
+            items = inventory;
         }
         public override char icon()
         {
-            return 'C';
+            return 'M';
         }
+        public override string getedgetype()
+        {
+            return base.getedgetype();
+        }
+        public override void interact()
+        {
+            item.print(items);
+        }
+        public inventoryitem getitem(string name)
+        {
+            foreach (inventoryitem I in items)
+            {
+                if (I.getname() == name)
+                {
+                    items.Remove(I);
+                    return I;
+                }
+            }
+            return null;
+        }
+    }
+
+    public abstract class inventoryitem
+    {
+        public abstract string getname();
+
+        public abstract int use();
+
+        public abstract string getdescription();
+
+
+    }
+
+    public class health_potion : inventoryitem
+    {
+        protected bool used;
+        protected int amount;
+        protected int strength;
+        public health_potion(string health, int amount)
+        {
+            strength = amount;
+            this.amount = amount;
+            used = false;
+        }
+        public override string getname()
+        {
+            return "health potion";
+        }
+        public override int use()
+        {
+            amount--;
+            if (amount == 0) used = true;
+            return strength;
+        }
+
+        public override string getdescription()
+        {
+            return (getname() + " with a potency of " + strength);
+        }
+
+    }
+
+    public class weapon : inventoryitem
+    {
+        private string name; private string weapontype; private string damagetype;
+        private int attack;
+
+        public weapon(string name, int attackdamage, string weapontype, string damagetype)
+        {
+            this.name = name;
+            this.attack = attackdamage;
+            this.weapontype = weapontype;
+            this.damagetype = damagetype;
+        }
+        public override string getdescription()
+        {
+            return ("A type of " + weapontype + " " + name + " which does " + attack + " " + damagetype + " damage");
+        }
+
+        public override string getname()
+        {
+            return name;
+        }
+
+        public override int use()
+        {
+            return attack;
+        }
+    }
+
+    public class pointer
+    {
+        private Area inthisarea;
+        private int x;
+        private int y;
+        private string direction;
+        private char icon;
+        public pointer(int inx, int iny)
+        {
+            x = inx;
+            y = iny;
+            direction = "right";
+        }
+        public void mov(string direction)
+        {
+            if (this.direction == direction)
+            {
+                Console.Write(" ");
+                if (direction == "right" &&)
+                {
+                    Console.Write(icon);
+                }
+            }
+            this.direction = direction;
+
+        }
+
     }
 }
 
