@@ -8,6 +8,21 @@ namespace Game_v2
 {
     internal class Program
     {
+        static void createmap(List<edge> edges)
+        {
+            bool top = true;
+            List<Coord> area = new List<Coord>();
+            for (int i = 0; i < edges.Count; i++)
+            {
+                area.Add(edges[i]);
+                int x = edges[i].getx();
+                int y = edges[i].gety();
+                while (x != edges[i + 1].getx() && y != edges[i + 1].gety())
+                {
+
+                }
+            }
+        }
         static void Main(string[] args)
         {
             
