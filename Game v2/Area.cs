@@ -2,19 +2,12 @@
 using System.CodeDom;
 using System.Collections.Generic;
 using System.Linq;
+using System.Management.Instrumentation;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace Game_v2
 {
-    public class Map
-    {
-        List<Area> map;
-        public Map()
-        {
-
-        }
-    }
 
     public class Area
     {
@@ -28,21 +21,17 @@ namespace Game_v2
             foreach (Coord c in cordlist)
             {
 
-                Console.CursorTop = c.getx();
-                Console.CursorLeft = c.gety();
+                Console.CursorLeft = c.getx();
+                Console.CursorTop = c.gety();
                 switch (c.getedgetype())
                 {
                     case "top":
                         Console.CursorTop--;
                         Console.Write("-");
-                        Console.CursorTop++;
-                        Console.CursorLeft--;
                         break;
                     case "left":
                         Console.CursorLeft--;
                         Console.Write("|");
-                        Console.CursorLeft--;
-                        Console.CursorLeft--;
                         break;
                     case "right":
                         Console.CursorLeft++;
@@ -51,7 +40,6 @@ namespace Game_v2
                     case "bottom":
                         Console.CursorTop++;
                         Console.Write("-");
-                        Console.CursorLeft--;
                         break;
                     case "topleft":
                         Console.CursorTop--;
@@ -60,14 +48,12 @@ namespace Game_v2
                         Console.CursorLeft--;
                         Console.CursorLeft--;
                         Console.Write("|");
-                        Console.CursorLeft--;
                         break;
                     case "topright":
                         Console.CursorTop--;
                         Console.Write("-");
                         Console.CursorTop++;
                         Console.Write('|');
-                        Console.CursorLeft--;
                         break;
                     case "bottomleft":
                         Console.CursorTop++;
@@ -76,7 +62,6 @@ namespace Game_v2
                         Console.CursorLeft--;
                         Console.CursorLeft--;
                         Console.Write('|');
-                        Console.CursorLeft--;
                         break;
                     case "bottomright":
                         Console.CursorTop++;
@@ -84,6 +69,46 @@ namespace Game_v2
                         Console.CursorTop--;
                         Console.Write('|');
                         break;
+                    case "topleftright":
+                        Console.CursorTop--;
+                        Console.Write("-");
+                        Console.CursorTop++;
+                        Console.Write('|');
+                        Console.CursorLeft--;
+                        Console.CursorLeft--;
+                        Console.CursorLeft--;
+                        Console.Write('|');
+                        break;
+                    case "leftright":
+                        Console.CursorLeft--;
+                        Console.Write("|");
+                        Console.CursorLeft++;
+                        Console.Write("|");
+                        break;
+
+                    case "topD":
+                        Console.CursorTop--;
+                        Console.Write("D");
+                        break;
+
+                    case "leftD":
+                        Console.CursorLeft--;
+                        Console.Write("D");
+                        break;
+                    case "rightD":
+                        Console.CursorLeft++;
+                        Console.Write("D");
+                        break;
+                    case "bottomD":
+                        Console.CursorTop++;
+                        Console.Write("D");
+                        break;
+
+
+                    case "item":
+                        Console.Write(c.icon());
+                        break;
+
 
                 }
             }
@@ -107,6 +132,11 @@ namespace Game_v2
             return y;
         }
 
+        public virtual char icon()
+        {
+            return ' ';
+        }
+
         public virtual string getedgetype()
         {
             return "none";
@@ -126,12 +156,57 @@ namespace Game_v2
         }
     }
 
-    public class Gateway : edge
+    public class door : edge
     {
-        Area[] linked;
-        public Gateway(int inx, int iny, Area[] linked, string edgetype) : base(inx, iny, edgetype)
+        int[] linked;
+        public door(int inx, int iny, string doorposition, int[] linked) : base(inx, iny, doorposition)
         {
             this.linked = linked;
+        }
+        public int transport(int innow)
+        {
+            if (linked[1] == innow) return linked[0];
+            else return linked[1];
+        }
+        public override string getedgetype()
+        {
+            return base.getedgetype()+"D";
+        }
+    }
+    abstract class item : Coord
+    {
+        static void print(string[] input)
+        {
+            Console.CursorTop = 1;
+            Console.CursorLeft = 40;
+            foreach (string strings in input)
+            {
+                Console.Write(strings);
+                Console.CursorLeft = 40;
+                Console.CursorTop++;
+            }
+        }
+        public item(int inx,int iny) : base(inx, iny)
+        {
+
+        }
+        public override string getedgetype()
+        {
+            return "item";
+        }
+
+        public abstract void interact();
+    }
+    
+    public class chest : item
+    {
+        public chest(int inx, int iny) : base(inx, iny)
+        {
+            
+        }
+        public override char icon()
+        {
+            return 'C';
         }
     }
 }
