@@ -38,24 +38,39 @@ namespace Game_v2
             Console.CursorLeft = x;
             if (this.direction == direction)
             {
-                Console.Write(" ");
                 switch (direction)
                 {
                     case ConsoleKey.W:
-                        y--;
-                        draw();
+                        if (!inthisarea.isedge(x, (y - 1)))
+                        {
+                            Console.Write(" ");
+                            y--;
+                            draw();
+                        }
                         break;
                     case ConsoleKey.S:
-                        y++;
-                        draw();
+                        if (!inthisarea.isedge(x, (y + 1)))
+                        {
+                            Console.Write(" ");
+                            y++;
+                            draw();
+                        }
                         break;
                     case ConsoleKey.D:
-                        x++;
-                        draw();
+                        if (!inthisarea.isedge(x+1, y ))
+                        {
+                            Console.Write(" ");
+                            x++;
+                            draw();
+                        }
                         break;
                     case ConsoleKey.A:
-                        x--;
-                        draw();
+                        if (!inthisarea.isedge(x - 1, y))
+                        {
+                            Console.Write(" ");
+                            x--;
+                            draw();
+                        }
                         break;
                 }
             }

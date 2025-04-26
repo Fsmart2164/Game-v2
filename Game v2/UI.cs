@@ -53,12 +53,8 @@ namespace Game_v2
 
         public static void mov(ConsoleKey key)
         {
-            Console.CursorTop = y;
-            Console.CursorLeft = x;
-            Console.WriteLine("                                                    ");
-            Console.CursorTop = y;
-            Console.CursorLeft = x;
-            Console.Write(" player is facing in direction: ");
+            clear();
+            Console.Write("player is facing in direction: ");
             switch (key)
             {
                 case ConsoleKey.W:
@@ -73,8 +69,37 @@ namespace Game_v2
                 case ConsoleKey.A:
                     Console.WriteLine("left");
                     break;
-
             }
         }
+        public static void bump(Coord c)
+        {
+            Console.CursorTop = y+1;
+            Console.CursorLeft = x;
+            Console.WriteLine("                                                          ");
+            Console.CursorTop = y+1;
+            Console.CursorLeft = x;
+            switch (c.getedgetype())
+            {
+                case "wall":
+                    Console.Write("you cannot walk through a wall");
+                    break;
+                case "chest":
+                    Console.Write("that is a chest, press e to interact");
+                    break;
+                case "door":
+                    Console.Write("that is a door, press e to interact");
+                    break;
+            }
+        }
+        public static void clear()
+        {
+            Console.CursorTop = y;
+            Console.CursorLeft = x;
+            Console.WriteLine("                                                    ");
+            Console.WriteLine("                                                    ");
+            Console.CursorTop = y;
+            Console.CursorLeft = x;
+        }
+
     }
 }

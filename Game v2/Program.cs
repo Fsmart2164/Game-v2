@@ -22,6 +22,7 @@ namespace Game_v2
                 new edge(2,3,"|"),
                 new edge(8,3,"|"),
                 new edge(9,3,"|"),
+                new chest(10,3,new List<inventoryitem> {new health_potion(30,2),new weapon("zweihander",6,"greatsword","thrust")}),
                 new edge(11,3,"|"),
 
                 new edge(2,4,"|"),

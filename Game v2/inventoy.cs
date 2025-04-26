@@ -37,7 +37,7 @@ namespace Game_v2
         }
         public override string getedgetype()
         {
-            return base.getedgetype();
+            return "chest";
         }
         public override void interact()
         {
@@ -73,9 +73,9 @@ namespace Game_v2
         protected bool used;
         protected int amount;
         protected int strength;
-        public health_potion(string health, int amount)
+        public health_potion(int health, int amount)
         {
-            strength = amount;
+            strength = health;
             this.amount = amount;
             used = false;
         }

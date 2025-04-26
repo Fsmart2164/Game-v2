@@ -7,6 +7,18 @@ namespace Game_v2
 
     public class Area
     {
+        public bool isedge(int x, int y)
+        {
+            foreach (Coord c in cordlist)
+            {
+                if (x == c.getx() && y == c.gety() && c.getedgetype() != "start")
+                {
+                    BottomScreen.bump(c);
+                    return true;
+                }
+            }
+            return false;
+        }
         public Coord findstart()
         {
             foreach (Coord c in cordlist)
