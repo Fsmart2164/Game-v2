@@ -8,70 +8,56 @@ namespace Game_v2
         static List<Area> initialise_maps()
         {
             List<Area> maps = new List<Area>();
-            List<edge> edges = new List<edge>()
+            List<Coord> startcords = new List<Coord>()
             {
-                new edge(1,1,"topleft"),
-                new edge(2,1,"top"),
-                new edge(3,1,"top"),
-                new edge(4,1,"top"),
-                new edge(5,1,"top"),
-                new edge(6,1,"topright"),
+                new edge(4,1,"-"),
+                new edge(5,1,"-"),
+                new edge(6,1,"-"),
+                new edge(7,1,"-"),
 
-                new edge(1,2,"left"),
-                new edge(6,2,"right"),
-                new edge(9,2,"topleftright"),
+                new edge(3,2,"-"),
+                new edge(8,2,"|"),
+                new edge(10,2,"-"),
 
-                new door(1,3,"left",new int[] {1,2}),
-                new edge(6,3,"right"),
-                new edge(9,3,"leftright"),
+                new edge(2,3,"|"),
+                new edge(8,3,"|"),
+                new edge(9,3,"|"),
+                new edge(11,3,"|"),
 
-                new edge(1,4,"left"),
-                new edge(7,4,"none"),
-                new edge(8,4,"none"),
-                new edge(9,4,"right"),
+                new edge(2,4,"|"),
+                new edge(8,4,"|"),
+                new edge(9,4,"|"),
+                new edge(11,4,"|"),
 
-                new edge(1,5,"left"),
-                new edge(7,5,"bottom"),
-                new edge(8,5,"bottom"),
-                new edge(9,5,"bottomright"),
+                new edge(1,5,"|"),
+                new startpoint(5,5),
+                new edge(11,5,"|"),
 
-                new edge(1,6,"bottomleft"),
-                new edge(2,6,"bottom"),
-                new edge(3,6,"bottom"),
-                new edge(4,6,"bottom"),
-                new edge(5,6,"bottom"),
-                new edge(6,6,"bottomright"),
+                new door(1,6,new int[] {1,2}),
+                new edge(11,6,"|"),
+
+                new edge(1,7,"|"),
+                new edge(8,7,"-"),
+                new edge(9,7,"-"),
+                new edge(10,7,"-"),
+
+                new edge(2,8,"-"),
+                new edge(3,8,"-"),
+                new edge(4,8,"-"),
+                new edge(5,8,"-"),
+                new edge(6,8,"-"),
+                new edge(7,8,"-"),
             };
-            List<Coord> startcords = createmap(edges);
             Area startmap = new Area(startcords);
             maps.Add(startmap);
             return maps;
         }
-        static List<Coord> createmap(List<edge> edges)
-        {
-            List<Coord> area = new List<Coord>();
-            for (int i = 0; i < edges.Count; i++)
-            {
-                if (i == edges.Count) break;
-                area.Add(edges[i]);
-                if (edges[i].getedgetype() != "right" && edges[i].getedgetype() != "topright" && edges[i].getedgetype() != "bottomright" && edges[i].getedgetype() != "topleftright" && edges[i].getedgetype() != "leftright")
-                {
-                    int x = (edges[i].getx() + 1);
-                    int y = (edges[i].gety());
-                    while (x != edges[(i + 1)].getx())
-                    {
-
-                        area.Add(new Coord(x, y));
-                        x++;
-                    }
-                }
-            }
-            return area;
-        }
         static void Main(string[] args)
         {
-            Console.CursorLeft = 0;
-            Console.CursorTop = 0;
+            Console.WriteLine("you must enter fullscreen to play this");
+            Console.ReadLine();
+            Console.Clear();
+            Console.CursorVisible = false;
             start();
             Console.ReadKey(true);
 
@@ -82,6 +68,13 @@ namespace Game_v2
             List<Area> maps = initialise_maps();
 
             maps[0].printmap();
+            pointer myplayer = new pointer(maps[0]);
+            while (true)
+            {
+                ConsoleKeyInfo inp = Console.ReadKey(true);
+                ConsoleKey input = inp.Key;
+                myplayer.mov(input);
+            }
             Console.ReadKey(true);
         }
     }
