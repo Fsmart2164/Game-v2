@@ -66,7 +66,10 @@ namespace Game_v2
 
         public abstract string getdescription();
 
+        public abstract string getitemtype();
+        
 
+        
     }
 
     public class health_potion : inventoryitem
@@ -95,7 +98,10 @@ namespace Game_v2
         {
             return (getname() + " with a potency of " + strength);
         }
-
+        public override string getitemtype()
+        {
+            return "healthpotion";
+        }
     }
 
     public class weapon : inventoryitem
@@ -123,6 +129,10 @@ namespace Game_v2
         public override int use()
         {
             return attack;
+        }
+        public override string getitemtype()
+        {
+            return "weapon";
         }
     }
 

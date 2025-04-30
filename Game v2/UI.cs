@@ -26,8 +26,8 @@ namespace Game_v2
             Console.CursorLeft = x;
             for (int i = 0; i < 10; i++)
             {
-                Console.Write("                                                ");
-                y++;
+                Console.Write("                                                                   ");
+                Console.CursorTop++;
                 Console.CursorLeft = x;
             }
 
@@ -35,6 +35,7 @@ namespace Game_v2
         }
         public static void print(List<inventoryitem> inventory)
         {
+            RightScreen.clear();
             int i = 0;
             Console.CursorTop = y;
             Console.CursorLeft = x;
@@ -78,7 +79,6 @@ namespace Game_v2
                 }
                 else if (input == ConsoleKey.Enter)
                 {
-                    Console.Clear();
                     break;
                 }
             }

@@ -111,4 +111,34 @@ namespace Game_v2
         }
 
     }
+    public class player
+    {
+        private int health;
+
+    }
+    public class  inventory
+    {
+        private List<inventoryitem> items;
+        private Stack<inventoryitem> weapons;
+        public inventory()
+        {
+            items = new List<inventoryitem>();
+            weapons = new Stack<inventoryitem>(100); 
+        }
+        public void additems(inventoryitem i)
+        {
+            if (i.getitemtype() == "weapon")
+            {
+                weapons.Push(i);
+            }
+        }
+        public string getweaponinhand()
+        {
+            return weapons.Peek().getdescription();
+        }
+        public void dropweapon()
+        {
+            weapons.Pop();
+        }
+    }
 }

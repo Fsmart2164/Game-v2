@@ -51,6 +51,53 @@ namespace Game_v2
             };
             Area startmap = new Area(startcords);
             maps.Add(startmap);
+            List<Coord> secondarea = new List<Coord>()
+            {
+                new edge(9,1,"-"),
+                new edge(10,1,"-"),
+                new edge(11,1,"-"),
+                new door(12,1,new int[] {2,1}),
+                new edge(13,1,"-"),
+                new edge(14,1,"-"),
+                new edge(15,1,"-"),
+
+                new edge(7,2,"-"),
+                new edge(8,2,"-"),
+                new edge(10,2,"-"),                
+                new edge(11,2,"-"),
+
+                new edge(5,3,"-"),
+                new edge(6,3,"-"),
+                new edge(18,3,"-"),
+                new edge(19,3,"-"),
+
+                new edge(4,4,"-"),
+                new edge(20,4,"-"),
+
+                new edge(3,5,"|"),
+                new startpoint(12,12),
+                new edge(21,5,"|"),
+
+                new edge(3,6,"|"),
+                new edge(21,6,"|"),
+
+                new edge(2,7,"|"),
+                new edge(22,7,"|"),
+
+                new edge(2,8,"|"),
+                new edge(22,8,"|"),
+
+                new edge(1,9,"|"),
+                new edge(23,9,"|"),
+                new edge(1,9,"|"),
+                new edge(23,9,"|"),
+                new edge(1,9,"|"),
+                new edge(23,9,"|"),
+                new edge(1,9,"|"),
+                new edge(23,9,"|"),
+                new edge(1,9,"|"),
+                new edge(23,9,"|"),
+            };
             return maps;
         }
         static void Main(string[] args)
