@@ -1,10 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics.Eventing.Reader;
-using System.Linq;
-using System.Runtime.InteropServices;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Game_v2
 {
@@ -25,19 +20,79 @@ namespace Game_v2
                 Console.CursorTop++;
             }
         }
-        public static void print(List<inventoryitem> input)
+        public static void clear()
+        {
+            Console.CursorTop = y;
+            Console.CursorLeft = x;
+            for (int i = 0; i < 10; i++)
+            {
+                Console.Write("                                                ");
+                y++;
+                Console.CursorLeft = x;
+            }
+
+
+        }
+        public static void print(List<inventoryitem> inventory)
         {
             int i = 0;
             Console.CursorTop = y;
             Console.CursorLeft = x;
-            foreach (inventoryitem strings in input)
+            Console.Write("which option would you like");
+            Console.CursorLeft = x;
+            Console.CursorTop++;
+            foreach (inventoryitem strings in inventory)
             {
-                Console.Write(i + ":  ");
+                Console.Write(" :  ");
                 Console.Write(strings.getdescription());
                 Console.CursorLeft = x;
                 Console.CursorTop++;
                 i++;
             }
+            Console.Write("   return");
+            Console.CursorTop = y+1;
+            Console.CursorLeft = x + 2;
+            Console.Write(">");
+            Console.CursorLeft = x + 2;
+            int choice = 0;
+            while (true)
+            {
+                ConsoleKey input = Console.ReadKey(true).Key;
+                if (input == ConsoleKey.W && choice > 0)
+                {
+                    Console.Write(" ");
+                    Console.CursorLeft = x + 2;
+                    choice--;
+                    Console.CursorTop--;
+                    Console.Write(">");
+                    Console.CursorLeft = x + 2;
+                }
+                else if (input == ConsoleKey.S && choice < inventory.Count)
+                {
+                    Console.Write(" ");
+                    Console.CursorLeft = x + 2;
+                    choice++;
+                    Console.CursorTop++;
+                    Console.Write(">");
+                    Console.CursorLeft = x + 2;
+                }
+                else if (input == ConsoleKey.Enter)
+                {
+                    Console.Clear();
+                    break;
+                }
+            }
+            if (choice != inventory.Count)
+            {
+                // add to player inventory
+                inventory.Remove(inventory[choice]);
+                print(inventory);
+            }
+            else
+            {
+                RightScreen.clear();
+            }
+
         }
         public static void print(string input)
         {
@@ -59,7 +114,7 @@ namespace Game_v2
             {
                 case ConsoleKey.W:
                     Console.WriteLine("up");
-                break;
+                    break;
                 case ConsoleKey.S:
                     Console.WriteLine("down");
                     break;
@@ -73,10 +128,10 @@ namespace Game_v2
         }
         public static void bump(Coord c)
         {
-            Console.CursorTop = y+1;
+            Console.CursorTop = y + 1;
             Console.CursorLeft = x;
             Console.WriteLine("                                                          ");
-            Console.CursorTop = y+1;
+            Console.CursorTop = y + 1;
             Console.CursorLeft = x;
             switch (c.getedgetype())
             {
@@ -100,6 +155,5 @@ namespace Game_v2
             Console.CursorTop = y;
             Console.CursorLeft = x;
         }
-
     }
 }

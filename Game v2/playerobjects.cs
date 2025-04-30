@@ -25,7 +25,10 @@ namespace Game_v2
             draw();
 
         }
-
+        public ConsoleKey getdirection()
+        {
+            return direction;
+        }
         public void changearea(int inx, int iny, Area area)
         {
             inthisarea = area;
@@ -81,6 +84,24 @@ namespace Game_v2
             }
                 
 
+        }
+        public void interact()
+        {
+            switch (direction)
+            {
+                case ConsoleKey.W:
+                    inthisarea.interact(x, (y - 1));
+                    break;
+                case ConsoleKey.S:
+                    inthisarea.interact(x, (y + 1));
+                    break;
+                case ConsoleKey.D:
+                    inthisarea.interact(x + 1, y);
+                    break;
+                case ConsoleKey.A:
+                    inthisarea.interact(x - 1, y);
+                    break;
+            }
         }
         private void draw()
         {

@@ -32,6 +32,18 @@ namespace Game_v2
             return null;
         }
 
+        public void interact(int x, int y)
+        {
+            foreach (Coord c in cordlist)
+            {
+                if (x == c.getx() && y == c.gety() && c.getedgetype() != "start")
+                {
+                    c.interact();
+                   
+                }
+            }
+        }
+
         List<Coord> cordlist;
 
         public Area(List<Coord> coords)
@@ -86,6 +98,10 @@ namespace Game_v2
         {
             return "none";
         }
+        public virtual void interact()
+        {
+
+        }
     }
     public class startpoint : Coord
     {
@@ -114,6 +130,7 @@ namespace Game_v2
         {
             return icond;
         }
+
     }
 
     public class door : edge

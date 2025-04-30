@@ -74,7 +74,14 @@ namespace Game_v2
             {
                 ConsoleKeyInfo inp = Console.ReadKey(true);
                 ConsoleKey input = inp.Key;
-                myplayer.mov(input);
+                if (input == ConsoleKey.E)
+                {
+                    myplayer.interact();
+                }
+                else
+                {
+                    myplayer.mov(input);
+                }
             }
             Console.ReadKey(true);
         }

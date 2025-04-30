@@ -19,7 +19,7 @@ namespace Game_v2
             return "item";
         }
 
-        public virtual void interact()
+        public override void interact()
         {
             RightScreen.print("generic item");
         }
@@ -42,6 +42,7 @@ namespace Game_v2
         public override void interact()
         {
             RightScreen.print(items);
+
         }
         public inventoryitem getitem(string name)
         {
