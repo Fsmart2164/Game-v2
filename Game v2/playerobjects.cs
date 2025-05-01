@@ -36,7 +36,7 @@ namespace Game_v2
             y = iny;
             draw();
         }
-        public void mov(ConsoleKey direction)
+        public bool mov(ConsoleKey direction)
         {
             Console.CursorTop = y;
             Console.CursorLeft = x;
@@ -50,6 +50,7 @@ namespace Game_v2
                             Console.Write(" ");
                             y--;
                             draw();
+                            return true;
                         }
                         break;
                     case ConsoleKey.S:
@@ -58,6 +59,8 @@ namespace Game_v2
                             Console.Write(" ");
                             y++;
                             draw();
+                            return true;
+
                         }
                         break;
                     case ConsoleKey.D:
@@ -65,7 +68,9 @@ namespace Game_v2
                         {
                             Console.Write(" ");
                             x++;
-                            draw();
+                            draw(); 
+                            return true;
+
                         }
                         break;
                     case ConsoleKey.A:
@@ -73,7 +78,8 @@ namespace Game_v2
                         {
                             Console.Write(" ");
                             x--;
-                            draw();
+                            draw(); 
+                            return true;
                         }
                         break;
                 }
@@ -83,8 +89,7 @@ namespace Game_v2
                 this.direction = direction;
                 BottomScreen.mov(direction);
             }
-                
-
+            return false;
         }
         public int interact()
         {
@@ -146,6 +151,10 @@ namespace Game_v2
             {
                 weapons.Push(i);
             }
+            else
+            {
+                items.Add(i);
+            }
         }
         public string getweaponinhand()
         {
@@ -154,6 +163,10 @@ namespace Game_v2
         public void dropweapon()
         {
             weapons.Pop();
+        }
+        public void output()
+        {
+
         }
     }
 }

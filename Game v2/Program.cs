@@ -55,7 +55,8 @@ namespace Game_v2
                 new startpoint(5,5),
                 new edge(11,5,"|"),
 
-                new door(1,6,12),
+                new door(1,6,12),     // door
+                new edge(0,6," "),    // doorback
                 new edge(11,6,"|"),
 
                 new edge(1,7,"|"),
@@ -70,14 +71,15 @@ namespace Game_v2
                 new edge(6,8,"-"),
                 new edge(7,8,"-"),
             };
-            Area startmap = new Area(startcords);
-            maps.Add(startmap);
+            Area map1 = new Area(startcords);
+            maps.Add(map1);
             List<Coord> secondcoords = new List<Coord>()
             {
                 new edge(9,1,"-"),
                 new edge(10,1,"-"),
                 new edge(11,1,"-"),
-                new door(12,1,24),
+                new door(12,1,24),     // door
+                new edge(12,0," "),    // doorback
                 new edge(13,1,"-"),
                 new edge(14,1,"-"),
                 new edge(15,1,"-"),
@@ -117,8 +119,10 @@ namespace Game_v2
                 new edge(1,11,"|"),
                 new edge(23,11,"|"),
 
-                new door(1,12,23),
-                new door(23,12,12),
+                new door(1,12,23),     // door
+                new edge(0,12," "),    // doorback
+                new door(23,12,12),    // door
+                new edge(24,12," "),   // doorback
 
                 new edge(1,13,"|"),
                 new edge(23,13,"|"),
@@ -132,7 +136,8 @@ namespace Game_v2
                 new edge(9,23,"-"),
                 new edge(10,23,"-"),
                 new edge(11,23,"-"),
-                new door(12,23,25),
+                new door(12,23,25),     // door
+                new edge(12,24," "),    // doorback
                 new edge(13,23,"-"),
                 new edge(14,23,"-"),
                 new edge(15,23,"-"),
@@ -162,8 +167,8 @@ namespace Game_v2
                 new edge(2,16,"|"),
                 new edge(22,16,"|"),
             };
-            Area secondarea = new Area(secondcoords);
-            maps.Add(secondarea);
+            Area map2 = new Area(secondcoords);
+            maps.Add(map2);
             return maps;
         }
         static void Main(string[] args)
@@ -179,14 +184,16 @@ namespace Game_v2
         }
         static void start()
         {
+            bool mov = false;
+            int howmany_after_tp = 5;
             List<Area> maps = initialise_maps();
             int x = 0;
             maps[x].printmap();
             pointer myplayer = new pointer(maps[x]);
-            while (true)
+            while (true)                                      // moving
             {
                 ConsoleKeyInfo inp = Console.ReadKey(true);
-                ConsoleKey input = inp.Key;
+                ConsoleKey input = inp.Key;                   // getting key input
                 if (input == ConsoleKey.E)
                 {
                     int key = myplayer.interact();
@@ -197,12 +204,18 @@ namespace Game_v2
                         Console.Clear();
                         maps[x].printmap();
                         myplayer.changearea(teleport.x, teleport.y, maps[x]);
+                        howmany_after_tp = 0;
                     }
                 }
                 else
                 {
-                    myplayer.mov(input);
+                    mov = myplayer.mov(input);
                 }
+                if (howmany_after_tp == 1)
+                {
+                    maps[x].printmap();
+                }
+                if (mov) howmany_after_tp++;
             }
         }
         struct dooruse
