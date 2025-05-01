@@ -1,6 +1,7 @@
 ﻿using System;
 using System.CodeDom;
 using System.Collections.Generic;
+using System.Diagnostics.Eventing.Reader;
 
 namespace Game_v2
 {
@@ -32,16 +33,16 @@ namespace Game_v2
             return null;
         }
 
-        public void interact(int x, int y)
+        public bool interact(int x, int y)
         {
             foreach (Coord c in cordlist)
             {
                 if (x == c.getx() && y == c.gety() && c.getedgetype() != "start")
                 {
-                    c.interact();
-                   
+                    return c.interact();
                 }
             }
+            return false;
         }
 
         List<Coord> cordlist;
@@ -70,6 +71,27 @@ namespace Game_v2
             return null;
         }
 
+        public int getdoorkey(int x, int y)
+        {
+            foreach (Coord c in cordlist)
+            {
+                if (x == c.getx() && y == c.gety() && c.getedgetype() == "door")
+                {
+                    
+                    return c.getkey();
+                }
+            }
+            return 0;
+        }
+
+        public Coord findcorrespondingdoor(int key)
+        {
+            foreach (Coord c in cordlist)
+            {
+                if (c.getkey() == key) return c;
+            }
+            return null;
+        }
     }
     public class Coord
     {
@@ -98,11 +120,16 @@ namespace Game_v2
         {
             return "none";
         }
-        public virtual void interact()
+        public virtual bool interact()
         {
-
+            return false;
+        }
+        public virtual int getkey()
+        {
+            return 0;
         }
     }
+
     public class startpoint : Coord
     {
         public startpoint(int inx, int iny) : base(inx, iny)
@@ -135,15 +162,21 @@ namespace Game_v2
 
     public class door : edge
     {
-        int[] linked;
-        public door(int inx, int iny, int[] linked) : base(inx, iny,"/")
+        int key;
+        bool used;
+        public door(int inx, int iny, int key) : base(inx, iny,"/")
         {
-            this.linked = linked;
+            this.key = key;
+            used = true;
         }
-        public int transport(int innow)
+        public override bool interact()
         {
-            if (linked[1] == innow) return linked[0];
-            else return linked[1];
+            return true;
+
+        }
+        public override int getkey()
+        {
+            return key;
         }
         public override string getedgetype()
         {

@@ -19,9 +19,11 @@ namespace Game_v2
             return "item";
         }
 
-        public override void interact()
+        public override bool interact()
         {
             RightScreen.print("generic item");
+            return false;
+
         }
     }
     public class chest : item
@@ -39,9 +41,10 @@ namespace Game_v2
         {
             return "chest";
         }
-        public override void interact()
+        public override bool interact()
         {
             RightScreen.print(items);
+            return false;
 
         }
         public inventoryitem getitem(string name)

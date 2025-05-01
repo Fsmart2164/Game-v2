@@ -5,6 +5,27 @@ namespace Game_v2
 {
     internal class Program
     {
+        static dooruse changemaps(List<Area> m, int key, int currentmapindex)
+        {
+            int ind = 0;
+            Coord c;
+            dooruse d = new dooruse();
+            for (int i = 0; i < m.Count+1; i++)
+            {
+                if (i != currentmapindex)
+                {
+                   if (m[i].findcorrespondingdoor(key) != null)
+                    {
+                        ind = i;
+                        break;
+                    }
+                }
+            }
+            c = m[ind].findcorrespondingdoor(key);
+            d.index = ind;
+            d.x = c.getx(); d.y = c.gety();
+            return d;
+        }
         static List<Area> initialise_maps()
         {
             List<Area> maps = new List<Area>();
@@ -34,7 +55,7 @@ namespace Game_v2
                 new startpoint(5,5),
                 new edge(11,5,"|"),
 
-                new door(1,6,new int[] {1,2}),
+                new door(1,6,12),
                 new edge(11,6,"|"),
 
                 new edge(1,7,"|"),
@@ -51,20 +72,20 @@ namespace Game_v2
             };
             Area startmap = new Area(startcords);
             maps.Add(startmap);
-            List<Coord> secondarea = new List<Coord>()
+            List<Coord> secondcoords = new List<Coord>()
             {
                 new edge(9,1,"-"),
                 new edge(10,1,"-"),
                 new edge(11,1,"-"),
-                new door(12,1,new int[] {2,1}),
+                new door(12,1,24),
                 new edge(13,1,"-"),
                 new edge(14,1,"-"),
                 new edge(15,1,"-"),
 
                 new edge(7,2,"-"),
                 new edge(8,2,"-"),
-                new edge(10,2,"-"),                
-                new edge(11,2,"-"),
+                new edge(16,2,"-"),                
+                new edge(17,2,"-"),
 
                 new edge(5,3,"-"),
                 new edge(6,3,"-"),
@@ -89,15 +110,60 @@ namespace Game_v2
 
                 new edge(1,9,"|"),
                 new edge(23,9,"|"),
-                new edge(1,9,"|"),
-                new edge(23,9,"|"),
-                new edge(1,9,"|"),
-                new edge(23,9,"|"),
-                new edge(1,9,"|"),
-                new edge(23,9,"|"),
-                new edge(1,9,"|"),
-                new edge(23,9,"|"),
+
+                new edge(1,10,"|"),
+                new edge(23,10,"|"),
+
+                new edge(1,11,"|"),
+                new edge(23,11,"|"),
+
+                new door(1,12,23),
+                new door(23,12,12),
+
+                new edge(1,13,"|"),
+                new edge(23,13,"|"),
+
+                new edge(1,14,"|"),
+                new edge(23,14,"|"),
+
+                new edge(1,15,"|"),
+                new edge(23,15,"|"),
+
+                new edge(9,23,"-"),
+                new edge(10,23,"-"),
+                new edge(11,23,"-"),
+                new door(12,23,25),
+                new edge(13,23,"-"),
+                new edge(14,23,"-"),
+                new edge(15,23,"-"),
+
+                new edge(7,22,"-"),
+                new edge(8,22,"-"),
+                new edge(16,22,"-"),
+                new edge(17,22,"-"),
+
+                new edge(5,21,"-"),
+                new edge(6,21,"-"),
+                new edge(18,21,"-"),
+                new edge(19,21,"-"),
+
+                new edge(4,20,"-"),
+                new edge(20,20,"-"),
+
+                new edge(3,19,"|"),
+                new edge(21,19,"|"),
+
+                new edge(3,18,"|"),
+                new edge(21,18,"|"),
+
+                new edge(2,17,"|"),
+                new edge(22,17,"|"),
+
+                new edge(2,16,"|"),
+                new edge(22,16,"|"),
             };
+            Area secondarea = new Area(secondcoords);
+            maps.Add(secondarea);
             return maps;
         }
         static void Main(string[] args)
@@ -114,23 +180,36 @@ namespace Game_v2
         static void start()
         {
             List<Area> maps = initialise_maps();
-
-            maps[0].printmap();
-            pointer myplayer = new pointer(maps[0]);
+            int x = 0;
+            maps[x].printmap();
+            pointer myplayer = new pointer(maps[x]);
             while (true)
             {
                 ConsoleKeyInfo inp = Console.ReadKey(true);
                 ConsoleKey input = inp.Key;
                 if (input == ConsoleKey.E)
                 {
-                    myplayer.interact();
+                    int key = myplayer.interact();
+                    if (key != 0)
+                    {
+                        dooruse teleport = changemaps(maps,key,x);
+                        x = teleport.index;
+                        Console.Clear();
+                        maps[x].printmap();
+                        myplayer.changearea(teleport.x, teleport.y, maps[x]);
+                    }
                 }
                 else
                 {
                     myplayer.mov(input);
                 }
             }
-            Console.ReadKey(true);
+        }
+        struct dooruse
+        {
+            public int x;
+            public int y;
+            public int index;
         }
     }
 }

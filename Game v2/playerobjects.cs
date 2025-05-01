@@ -34,6 +34,7 @@ namespace Game_v2
             inthisarea = area;
             x = inx;
             y = iny;
+            draw();
         }
         public void mov(ConsoleKey direction)
         {
@@ -85,23 +86,37 @@ namespace Game_v2
                 
 
         }
-        public void interact()
+        public int interact()
         {
             switch (direction)
             {
                 case ConsoleKey.W:
-                    inthisarea.interact(x, (y - 1));
+                    if (inthisarea.interact(x, (y - 1)))
+                    {
+                        return inthisarea.getdoorkey(x,(y - 1));
+                    }
                     break;
                 case ConsoleKey.S:
-                    inthisarea.interact(x, (y + 1));
+                    if (inthisarea.interact(x, (y + 1)))
+                    {
+                        return inthisarea.getdoorkey(x, (y + 1));
+                    }
                     break;
                 case ConsoleKey.D:
-                    inthisarea.interact(x + 1, y);
+                    if (inthisarea.interact(x + 1, y))
+                    {
+                        return inthisarea.getdoorkey(x+1,y);
+                    }
                     break;
+
                 case ConsoleKey.A:
-                    inthisarea.interact(x - 1, y);
+                    if (inthisarea.interact(x - 1, y))
+                    {
+                        return inthisarea.getdoorkey(x -1 , y);
+                    }
                     break;
             }
+            return 0;
         }
         private void draw()
         {
