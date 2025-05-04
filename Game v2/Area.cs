@@ -45,6 +45,30 @@ namespace Game_v2
             return false;
         }
 
+        public bool ischest(int x, int y)
+        {
+            foreach (Coord c in cordlist)
+            {
+                if (x == c.getx() && y == c.gety() && c.getedgetype() == "chest")
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        public List<inventoryitem> interactwithchest(int x, int y)
+        {
+            foreach (Coord c in cordlist)
+            {
+                if (x == c.getx() && y == c.gety() && c.getedgetype() == "chest")
+                {
+                    return c.interactchest();
+                }
+            }
+            return null;
+        }
+
         List<Coord> cordlist;
 
         public Area(List<Coord> coords)
@@ -127,6 +151,10 @@ namespace Game_v2
         public virtual int getkey()
         {
             return 0;
+        }
+        public virtual List<inventoryitem> interactchest()
+        {
+            return null;
         }
     }
 

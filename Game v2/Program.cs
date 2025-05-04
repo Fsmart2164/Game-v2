@@ -184,6 +184,7 @@ namespace Game_v2
         }
         static void start()
         {
+            player me = new player();
             bool mov = false;
             int howmany_after_tp = 5;
             List<Area> maps = initialise_maps();
@@ -197,7 +198,12 @@ namespace Game_v2
                 if (input == ConsoleKey.E)
                 {
                     int key = myplayer.interact();
-                    if (key != 0)
+                    if (key == 1)
+                    {
+                        List<inventoryitem> reach = myplayer.chestinteract();
+                        me.addtoinventory(reach);
+                    }
+                    else if (key != 0)
                     {
                         dooruse teleport = changemaps(maps,key,x);
                         x = teleport.index;
@@ -206,6 +212,10 @@ namespace Game_v2
                         myplayer.changearea(teleport.x, teleport.y, maps[x]);
                         howmany_after_tp = 0;
                     }
+                }
+                if (input == ConsoleKey.Tab)
+                {
+                    me.inventoryprint();
                 }
                 else
                 {

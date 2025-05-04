@@ -96,26 +96,42 @@ namespace Game_v2
             switch (direction)
             {
                 case ConsoleKey.W:
-                    if (inthisarea.interact(x, (y - 1)))
+                    if (inthisarea.ischest(x, y - 1)) 
                     {
-                        return inthisarea.getdoorkey(x,(y - 1));
+                        return 1;
+                    }
+                    else if (inthisarea.interact(x, (y - 1)))
+                    {
+                        return inthisarea.getdoorkey(x, (y - 1));
                     }
                     break;
                 case ConsoleKey.S:
-                    if (inthisarea.interact(x, (y + 1)))
+                    if (inthisarea.ischest(x, y + 1))
+                    {
+                        return 1;
+                    }
+                    else if (inthisarea.interact(x, (y + 1)))
                     {
                         return inthisarea.getdoorkey(x, (y + 1));
                     }
                     break;
                 case ConsoleKey.D:
-                    if (inthisarea.interact(x + 1, y))
+                    if (inthisarea.ischest(x + 1, y))
+                    {
+                        return 1;
+                    }
+                    else if (inthisarea.interact(x + 1, y))
                     {
                         return inthisarea.getdoorkey(x+1,y);
                     }
                     break;
 
                 case ConsoleKey.A:
-                    if (inthisarea.interact(x - 1, y))
+                    if (inthisarea.ischest(x - 1, y))
+                    {
+                        return 1;
+                    }
+                    else if (inthisarea.interact(x - 1, y))
                     {
                         return inthisarea.getdoorkey(x -1 , y);
                     }
@@ -130,20 +146,55 @@ namespace Game_v2
             Console.Write(icon);
         }
 
+        public List<inventoryitem> chestinteract()
+        {
+            switch (direction)
+            {
+                case ConsoleKey.W:
+                    return inthisarea.interactwithchest(x, y-1);
+                case ConsoleKey.S:
+                    return inthisarea.interactwithchest(x, y + 1);
+                case ConsoleKey.D:
+                    return inthisarea.interactwithchest(x+1,y);
+                case ConsoleKey.A:
+                    return inthisarea.interactwithchest(x-1, y);
+
+            }
+            return new List<inventoryitem>();
+        }
     }
     public class player
     {
         private int health;
+        private inventory myinventory;
 
+        public player()
+        {
+            myinventory = new inventory();
+        }
+
+        public void addtoinventory(List<inventoryitem> p)
+        {
+            foreach (inventoryitem item in p)
+            {
+                myinventory.additems(item);
+            }
+        }
+        public void inventoryprint()
+        {
+            RightScreen.print(myinventory.getitems(), myinventory.getweapons());
+        }
     }
     public class  inventory
     {
-        private List<inventoryitem> items;
-        private Stack<inventoryitem> weapons;
+        protected List<inventoryitem> items;
+        protected Stack<inventoryitem> weapons;
         public inventory()
         {
             items = new List<inventoryitem>();
-            weapons = new Stack<inventoryitem>(100); 
+            items.Add(new health_potion(10, 1));
+            weapons = new Stack<inventoryitem>(100);
+            weapons.Push(new weapon("fists", 1, "hand", "blunt"));
         }
         public void additems(inventoryitem i)
         {
@@ -164,9 +215,15 @@ namespace Game_v2
         {
             weapons.Pop();
         }
-        public void output()
+        
+        public List<inventoryitem> getitems()
         {
+            return items;
+        }
 
+        public Stack<inventoryitem> getweapons()
+        {
+            return weapons;
         }
     }
 }

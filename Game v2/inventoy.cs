@@ -41,10 +41,10 @@ namespace Game_v2
         {
             return "chest";
         }
-        public override bool interact()
+        public override List<inventoryitem> interactchest()
         {
-            RightScreen.print(items);
-            return false;
+            return RightScreen.print(items);
+            
 
         }
         public inventoryitem getitem(string name)
