@@ -200,7 +200,7 @@ namespace Game_v2
     {
         private inventory myinventory;
 
-        public player(string name) : base(name,0,0,0)
+        public player(string name) : base(name,0,0,0,200)
         {
             myinventory = new inventory();
             attackdamage = myinventory.getattackpower();
@@ -321,10 +321,10 @@ namespace Game_v2
         protected string name;
         protected int attackdamage;
         private enemy me;
-        public Warrior(string myname,int attackpower,int x , int y)
+        public Warrior(string myname,int attackpower,int x , int y, int health)
         {
             name = myname;
-            max_health = 100;
+            max_health = health;
             current_health = max_health;
             attackdamage = attackpower;
             me = new enemy(x,y);

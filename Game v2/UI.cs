@@ -109,6 +109,7 @@ namespace Game_v2
                 }
                 transfer.Clear();
                 RightScreen.clear();
+                howmanyindentsblud = 0;
                 return transering;
             }
             else

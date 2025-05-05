@@ -7,9 +7,11 @@ namespace Game_v2
     {
         static string Setup()
         {
+            Console.CursorVisible = true;
             Console.WriteLine("welcome to the adventure game \r\nuse W A S D to move \r\npress tab to open inventory \r\npress e to interact with an object\r\nyour player is p\r\nenemys are E\r\nchests are M\r\nwalls look like walls and doors are stick out of walls\r\nplease enter your name");
             string name = Console.ReadLine();
             Console.Clear();
+            Console.CursorVisible = false;
             return name;
         }
         static dooruse changemaps(List<Area> m, int key, int currentmapindex)
@@ -17,11 +19,11 @@ namespace Game_v2
             int ind = 0;
             Coord c;
             dooruse d = new dooruse();
-            for (int i = 0; i < m.Count+1; i++)
+            for (int i = 0; i < m.Count + 1; i++)
             {
                 if (i != currentmapindex)
                 {
-                   if (m[i].findcorrespondingdoor(key) != null)
+                    if (m[i].findcorrespondingdoor(key) != null)
                     {
                         ind = i;
                         break;
@@ -76,7 +78,7 @@ namespace Game_v2
                 new edge(5,8,"-"),
                 new edge(6,8,"-"),
                 new edge(7,8,"-"),
-            };
+            };  // finished
             Area map1 = new Area(startcords);
 
             List<Coord> secondcoords = new List<Coord>()
@@ -92,7 +94,7 @@ namespace Game_v2
 
                 new edge(7,2,"-"),
                 new edge(8,2,"-"),
-                new edge(16,2,"-"),                
+                new edge(16,2,"-"),
                 new edge(17,2,"-"),
 
                 new edge(5,3,"-"),
@@ -172,10 +174,10 @@ namespace Game_v2
 
                 new edge(2,16,"|"),
                 new edge(22,16,"|"),
-            };
+            };// finished
             Area map2 = new Area(secondcoords);
 
-            List<Coord> sighthcoords = new List<Coord>() 
+            List<Coord> sighthcoords = new List<Coord>()
             {
                 new edge(2,1,"-"),
                 new edge(3,1,"-"),
@@ -184,9 +186,12 @@ namespace Game_v2
 
                 new edge(1,2,"|"),
                 new edge(6,2,"|"),
+                new chest(2,2,new List<inventoryitem> {new weapon("claymore",5,"greatsword","slash")}),
 
                 new edge(1,3,"|"),
-                new door(6,3,23),
+                new door(6,3,23), // door
+                new edge(7,3," "), // doorback
+                new chest(2,3,new List<inventoryitem> {new weapon("longsword",5,"straitsword","slash")}),
 
                 new edge(2,4,"-"),
                 new edge(6,4,"|"),
@@ -196,17 +201,159 @@ namespace Game_v2
 
                 new edge(4,6,"-"),
                 new edge(5,6,"-"),
-            };
+            };// finished
             Area map3 = new Area(sighthcoords);
 
+            List<Coord> fithcoords = new List<Coord>()
+            {
+                new edge(2,1,"-"),
+                new edge(3,1,"-"),
+                new edge(4,1,"-"),
+                new edge(5,1,"-"),
+                new edge(6,1,"-"),
+                new edge(7,1,"-"),
+                new door(8,1,25),       // door
+                new edge(8,0," "),      // doorback
+                new edge(9,1,"-"),
+                new edge(10,1,"-"),
+
+                new edge(1,2,"|"),
+                new edge(7,2,"|"),
+                new edge(11,2,"|"),
+
+                new edge(1,3,"|"),
+                new edge(3,3,"-"),
+                new edge(4,3,"-"),
+                new edge(5,3,"|"),
+                new edge(9,3,"|"),
+                new edge(12,3,"|"),
+
+                new edge(1,4,"|"),
+                new edge(5,4,"-"),
+                new edge(6,4,"-"),
+                new edge(7,4,"-"),
+                new edge(8,4,"-"),
+                new edge(9,4,"-"),
+                new edge(10,4,"-"),
+                new edge(12,4,"|"),
+
+                new edge(1,5,"|"),
+                new edge(2,5,"-"),
+                new edge(3,5,"-"),
+                new edge(6,5,"|"),
+                new edge(12,5,"|"),
+                new edge(13,5,"-"),
+                new edge(14,5,"-"),
+                new edge(15,5,"-"),
+
+                new edge(1,6,"|"),
+                new chest(2,6,new List<inventoryitem> {new weapon("broadsword",5,"straitsword","slash")}),
+                new edge(3,6,"|"),
+                new edge(4,6,"-"),
+                new edge(6,6,"|"),
+                new edge(8,6,"-"),
+                new edge(9,6,"-"),
+                new edge(10,6,"-"),
+                new edge(11,6,"-"),
+                new edge(12,6,"|"),
+                new edge(16,6,"|"),
+
+                new edge(1,7,"|"),
+                new edge(4,7,"|"),
+                new edge(6,7,"|"),
+                new edge(9,7,"|"),
+                new edge(12,7,"|"),
+                new chest(13,7,new List<inventoryitem> {new health_potion(10,2)}),
+                new edge(14,7,"|"),
+                new edge(16,7,"-"),
+
+                new edge(1,8,"|"),
+                new edge(3,8,"-"),
+                new edge(4,8,"-"),
+                new edge(6,8,"|"),
+                new edge(7,8,"-"),
+                new edge(9,8,"|"),
+                new edge(11,8,"-"),
+                new edge(12,8,"-"),
+                new edge(13,8,"-"),
+                new edge(16,8,"|"),
+
+                new edge(1,9,"|"),
+                new edge(6,9,"|"),
+                new edge(14,9,"-"),
+                new edge(16,9,"|"),
+
+                new edge(1,10,"|"),
+                new edge(2,10,"-"),
+                new edge(3,10,"-"),
+                new edge(4,10,"-"),
+                new edge(7,10,"-"),
+                new edge(8,10,"-"),
+                new edge(9,10,"-"),
+                new edge(10,10,"-"),
+                new edge(11,10,"-"),
+                new edge(16,10,"|"),
+
+                new edge(1,11,"|"),
+                new edge(7,11,"|"),
+                new edge(10,11,"-"),
+                new edge(11,11,"-"),
+                new edge(12,11,"-"),
+                new edge(13,11,"-"),
+                new edge(16,11,"|"),
+
+                new edge(1,12,"|"),
+                new edge(2,12,"-"),
+                new edge(4,12,"-"),
+                new edge(5,12,"-"),
+                new edge(8,12,"-"),
+                new edge(15,12,"-"),
+                new edge(16,12,"|"),
+
+                new door(1,13,53),       //door
+                new edge(0,13," "),      //doorback
+                new edge(5,13,"|"),
+                new edge(9,13,"|"),
+                new edge(11,13,"-"),
+                new edge(12,13,"-"),
+                new edge(13,13,"-"),
+                new edge(16,13,"|"),
+
+                new edge(2,14,"-"),
+                new edge(3,14,"-"),
+                new edge(4,14,"-"),
+                new edge(5,14,"-"),
+                new edge(6,14,"-"),
+                new edge(7,14,"-"),
+                new edge(8,14,"-"),
+                new edge(9,14,"-"),
+                new door(10,14,54),      //door
+                new edge(10,15," "),     //doorback
+                new edge(11,14,"-"),
+                new edge(12,14,"-"),
+                new edge(13,14,"-"),
+                new edge(14,14,"-"),
+                new edge(15,14,"-"),
+            };  // finished
+            Area map4 = new Area(fithcoords);
+
             //enemys
-            map2.add(new Warrior("asylum demon", 10, 12, 12));
+            map2.add(new Warrior("asylum demon", 10, 12, 12,100));
+            map4.add(new Warrior("undead soldier", 3, 4, 2, 50));
+            map4.add(new Warrior("undead soldier", 3, 11, 4, 50));
+            map4.add(new Warrior("undead soldier", 3, 2, 8, 50));
+            map4.add(new Warrior("undead soldier", 3, 13, 10, 50));
+            map4.add(new Warrior("perc goblin", 12, 7, 13, 30));
+
+
+
 
             // adding to main maps
             List<Area> maps = new List<Area>();
             maps.Add(map1);
             maps.Add(map2);
             maps.Add(map3);
+            maps.Add(map4);
 
             return maps;
         }
@@ -236,7 +383,7 @@ namespace Game_v2
                 ConsoleKey input = inp.Key;                   // getting key input
                 if (input == ConsoleKey.E)
                 {
-                    int key = myplayer.interact();           
+                    int key = myplayer.interact();
                     if (key == 1)                             // chest
                     {
                         List<inventoryitem> reach = myplayer.chestinteract();
@@ -259,7 +406,7 @@ namespace Game_v2
                         myplayer.changearea(teleport.x, teleport.y, maps[x]);
                         howmany_after_tp = 0;
                     }
-                    
+
                 }
                 if (input == ConsoleKey.Tab)
                 {
@@ -308,11 +455,11 @@ namespace Game_v2
         }
         static bool whoWon(Warrior p1, Warrior p2)
         {
-            if (p1.isalive()) 
-            { 
-                RightScreen.print(p1.getName()+" has vanquished " + p2.getName());
+            if (p1.isalive())
+            {
+                RightScreen.print(p1.getName() + " has vanquished " + p2.getName());
                 Console.ReadKey(true);
-                return false; 
+                return false;
             }
             else if (p2.isalive()) RightScreen.print(p2.getName() + " has vanquished " + p1.getName());
             else RightScreen.print(p1.getName() + " and " + p2.getName() + " both perished fighting eachother");

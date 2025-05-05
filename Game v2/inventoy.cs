@@ -118,7 +118,7 @@ namespace Game_v2
 
         public override string getdescription()
         {
-            return (getname() + " with a potency of " + strength);
+            return (amount+" "+getname() + " with a potency of " + strength);
         }
         public override string getitemtype()
         {
@@ -148,7 +148,7 @@ namespace Game_v2
         }
         public override string getdescription()
         {
-            return ("A type of " + weapontype + " " + name + " which does " + attack + " " + damagetype + " damage");
+            return ("A type of " + weapontype + ": " + name + " which does " + attack + " " + damagetype + " damage");
         }
 
         public override string getname()
