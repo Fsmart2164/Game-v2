@@ -442,7 +442,7 @@ namespace Game_v2
                 RightScreen.print(enemy.getName() + " attacks");
                 RightScreen.print(mc.getName() + " health is " + mc.getHealth() + "                       " + enemy.getName() + " health is " + enemy.getHealth());
 
-                if (mc.canheal())
+                if (mc.canheal() && mc.isalive())
                 {
                     RightScreen.print("would you like to heal? y/n");
                     char intput = Console.ReadKey(true).KeyChar;
