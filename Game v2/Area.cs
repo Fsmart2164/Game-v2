@@ -1,7 +1,5 @@
 ﻿using System;
-using System.CodeDom;
 using System.Collections.Generic;
-using System.Diagnostics.Eventing.Reader;
 
 namespace Game_v2
 {
@@ -13,6 +11,15 @@ namespace Game_v2
             foreach (Coord c in cordlist)
             {
                 if (x == c.getx() && y == c.gety() && c.getedgetype() != "start")
+                {
+                    BottomScreen.bump(c);
+                    return true;
+                }
+            }
+            foreach (Warrior w in enemys)
+            {
+                Coord c = w.getlocation();
+                if (x == c.getx() && y == c.gety() && c.getedgetype() != "start" && w.isalive())
                 {
                     BottomScreen.bump(c);
                     return true;
@@ -31,6 +38,20 @@ namespace Game_v2
                 }
             }
             return null;
+        }
+
+        public bool isenemy(int x, int y)
+        {
+            foreach (Warrior warrior in enemys)
+            {
+                Coord c = warrior.getlocation();
+                if (x == c.getx() && y == c.gety() && c.getedgetype() == "enemy")
+                {
+                    return true;
+                }
+
+            }
+            return false;
         }
 
         public bool interact(int x, int y)
@@ -69,17 +90,26 @@ namespace Game_v2
             return null;
         }
 
-        List<Coord> cordlist;
+        private List<Coord> cordlist;
+        private List<Warrior> enemys;
 
         public Area(List<Coord> coords)
         {
             cordlist = new List<Coord>(coords);
+            enemys = new List<Warrior>();
         }
         public void printmap()
         {
             foreach (Coord c in cordlist)
             {
 
+                Console.CursorLeft = c.getx();
+                Console.CursorTop = c.gety();
+                Console.Write(c.icon());
+            }
+            foreach (Warrior w in enemys)
+            {
+                Coord c = w.getlocation();
                 Console.CursorLeft = c.getx();
                 Console.CursorTop = c.gety();
                 Console.Write(c.icon());
@@ -101,7 +131,7 @@ namespace Game_v2
             {
                 if (x == c.getx() && y == c.gety() && c.getedgetype() == "door")
                 {
-                    
+
                     return c.getkey();
                 }
             }
@@ -113,6 +143,24 @@ namespace Game_v2
             foreach (Coord c in cordlist)
             {
                 if (c.getkey() == key) return c;
+            }
+            return null;
+        }
+
+        public void add(Warrior e)
+        {
+            enemys.Add(e);
+        }
+
+        public Warrior interactwithenemy(int x, int y)
+        {
+            foreach (Warrior w in enemys)
+            {
+                Coord c = w.getlocation();
+                if (x == c.getx() && y == c.gety() && c.getedgetype() == "enemy")
+                {
+                    return w;
+                }
             }
             return null;
         }
@@ -191,11 +239,9 @@ namespace Game_v2
     public class door : edge
     {
         int key;
-        bool used;
-        public door(int inx, int iny, int key) : base(inx, iny,"/")
+        public door(int inx, int iny, int key) : base(inx, iny, "/")
         {
             this.key = key;
-            used = true;
         }
         public override bool interact()
         {
@@ -212,6 +258,21 @@ namespace Game_v2
         }
     }
 
+    public class enemy : Coord
+    {
 
+        public enemy(int x, int y) : base(x, y)
+        {
+
+        }
+        public override string getedgetype()
+        {
+            return "enemy";
+        }
+        public override string icon()
+        {
+            return "E";
+        }
+    }
 }
 

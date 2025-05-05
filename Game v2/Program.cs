@@ -5,6 +5,13 @@ namespace Game_v2
 {
     internal class Program
     {
+        static string Setup()
+        {
+            Console.WriteLine("welcome to the adventure game \r\nuse W A S D to move \r\npress tab to open inventory \r\npress e to interact with an object\r\nyour player is p\r\nenemys are E\r\nchests are M\r\nwalls look like walls and doors are stick out of walls\r\nplease enter your name");
+            string name = Console.ReadLine();
+            Console.Clear();
+            return name;
+        }
         static dooruse changemaps(List<Area> m, int key, int currentmapindex)
         {
             int ind = 0;
@@ -28,7 +35,6 @@ namespace Game_v2
         }
         static List<Area> initialise_maps()
         {
-            List<Area> maps = new List<Area>();
             List<Coord> startcords = new List<Coord>()
             {
                 new edge(4,1,"-"),
@@ -43,7 +49,7 @@ namespace Game_v2
                 new edge(2,3,"|"),
                 new edge(8,3,"|"),
                 new edge(9,3,"|"),
-                new chest(10,3,new List<inventoryitem> {new health_potion(30,2),new weapon("zweihander",6,"greatsword","thrust")}),
+                new chest(10,3,new List<inventoryitem> {new health_potion(30,2)}),
                 new edge(11,3,"|"),
 
                 new edge(2,4,"|"),
@@ -72,7 +78,7 @@ namespace Game_v2
                 new edge(7,8,"-"),
             };
             Area map1 = new Area(startcords);
-            maps.Add(map1);
+
             List<Coord> secondcoords = new List<Coord>()
             {
                 new edge(9,1,"-"),
@@ -168,7 +174,40 @@ namespace Game_v2
                 new edge(22,16,"|"),
             };
             Area map2 = new Area(secondcoords);
+
+            List<Coord> sighthcoords = new List<Coord>() 
+            {
+                new edge(2,1,"-"),
+                new edge(3,1,"-"),
+                new edge(4,1,"-"),
+                new edge(5,1,"-"),
+
+                new edge(1,2,"|"),
+                new edge(6,2,"|"),
+
+                new edge(1,3,"|"),
+                new door(6,3,23),
+
+                new edge(2,4,"-"),
+                new edge(6,4,"|"),
+
+                new edge(3,5,"|"),
+                new edge(6,5,"|"),
+
+                new edge(4,6,"-"),
+                new edge(5,6,"-"),
+            };
+            Area map3 = new Area(sighthcoords);
+
+            //enemys
+            map2.add(new Warrior("asylum demon", 10, 12, 12));
+
+            // adding to main maps
+            List<Area> maps = new List<Area>();
+            maps.Add(map1);
             maps.Add(map2);
+            maps.Add(map3);
+
             return maps;
         }
         static void Main(string[] args)
@@ -184,7 +223,7 @@ namespace Game_v2
         }
         static void start()
         {
-            player me = new player();
+            player me = new player(Setup());
             bool mov = false;
             int howmany_after_tp = 5;
             List<Area> maps = initialise_maps();
@@ -197,21 +236,30 @@ namespace Game_v2
                 ConsoleKey input = inp.Key;                   // getting key input
                 if (input == ConsoleKey.E)
                 {
-                    int key = myplayer.interact();
-                    if (key == 1)
+                    int key = myplayer.interact();           
+                    if (key == 1)                             // chest
                     {
                         List<inventoryitem> reach = myplayer.chestinteract();
                         me.addtoinventory(reach);
                     }
-                    else if (key != 0)
+                    else if (key == 2)                        // enemy
                     {
-                        dooruse teleport = changemaps(maps,key,x);
+                        Warrior foe = myplayer.enemyinteract();
+                        if (fight(me, foe))
+                        {
+                            break;
+                        }
+                    }
+                    else if (key != 0)                        // doorkey
+                    {
+                        dooruse teleport = changemaps(maps, key, x);
                         x = teleport.index;
                         Console.Clear();
                         maps[x].printmap();
                         myplayer.changearea(teleport.x, teleport.y, maps[x]);
                         howmany_after_tp = 0;
                     }
+                    
                 }
                 if (input == ConsoleKey.Tab)
                 {
@@ -227,6 +275,49 @@ namespace Game_v2
                 }
                 if (mov) howmany_after_tp++;
             }
+            Console.Clear();
+            Console.WriteLine("u died");
+        }
+        static bool fight(player mc, Warrior enemy)
+        {
+            dice sixsideddie = new dice();
+            while (mc.isalive() && enemy.isalive())
+            {
+                mc.attack(enemy, sixsideddie.roll());
+                Console.WriteLine();
+                RightScreen.print(mc.getName() + " attacks");
+                RightScreen.print(mc.getName() + " health is " + mc.getHealth() + "                       " + enemy.getName() + " health is " + enemy.getHealth());
+                if (!enemy.isalive()) break;
+
+
+                enemy.attack(mc, sixsideddie.roll());
+                Console.WriteLine();
+                RightScreen.print(enemy.getName() + " attacks");
+                RightScreen.print(mc.getName() + " health is " + mc.getHealth() + "                       " + enemy.getName() + " health is " + enemy.getHealth());
+
+                if (mc.canheal())
+                {
+                    RightScreen.print("would you like to heal? y/n");
+                    char intput = Console.ReadKey(true).KeyChar;
+                    if (intput == 'y') mc.heal();
+                }
+            }
+            bool win = whoWon(mc, enemy);
+            RightScreen.clear();
+            return win;
+        }
+        static bool whoWon(Warrior p1, Warrior p2)
+        {
+            if (p1.isalive()) 
+            { 
+                RightScreen.print(p1.getName()+" has vanquished " + p2.getName());
+                Console.ReadKey(true);
+                return false; 
+            }
+            else if (p2.isalive()) RightScreen.print(p2.getName() + " has vanquished " + p1.getName());
+            else RightScreen.print(p1.getName() + " and " + p2.getName() + " both perished fighting eachother");
+            Console.ReadKey(true);
+            return true;
         }
         struct dooruse
         {

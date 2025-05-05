@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading;
 using Game_v2;
 
 namespace Game_v2
@@ -11,6 +12,7 @@ namespace Game_v2
         private static int x = 50;
         private static int y = 1;
         private static int howmanyindentsblud = 0;
+        private static int yowhatdafrickisdis = 1;
 
         public static void print(string[] input)
         {
@@ -27,7 +29,7 @@ namespace Game_v2
         {
             Console.CursorTop = y;
             Console.CursorLeft = x;
-            for (int i = 0; i < 10; i++)
+            for (int i = 0; i < 50; i++)
             {
                 Console.Write("                                                                                                                                           ");
                 Console.CursorTop++;
@@ -63,6 +65,10 @@ namespace Game_v2
             int choice = 0;
             while (true)
             {
+                if (inventory.Count == 0)
+                {
+                    break;
+                }
                 ConsoleKey input = Console.ReadKey(true).Key;
                 if (input == ConsoleKey.W && choice > 0)
                 {
@@ -107,14 +113,9 @@ namespace Game_v2
             }
             else
             {
+                RightScreen.clear();
                 return null;
             }
-        }
-        public static void print(string input)
-        {
-            Console.CursorTop = y;
-            Console.CursorLeft = x;
-            Console.Write(input);
         }
 
         public static void print(List<inventoryitem> inventory, Stack<inventoryitem> hand)
@@ -193,61 +194,79 @@ namespace Game_v2
                 RightScreen.clear();
             }
         }
-    }
-}
-public static class BottomScreen
-{
-    private static int x = 1;
-    private static int y = 30;
 
-    public static void mov(ConsoleKey key)
-    {
-        clear();
-        Console.Write("player is facing in direction: ");
-        switch (key)
+        public static void print(string s)
         {
-            case ConsoleKey.W:
-                Console.WriteLine("up");
-                break;
-            case ConsoleKey.S:
-                Console.WriteLine("down");
-                break;
-            case ConsoleKey.D:
-                Console.WriteLine("right");
-                break;
-            case ConsoleKey.A:
-                Console.WriteLine("left");
-                break;
+            Console.CursorTop = yowhatdafrickisdis;
+            Console.CursorLeft = x;
+            foreach (char c in s)
+            {
+                Console.Write(c);
+                Thread.Sleep(10);
+            }
+            yowhatdafrickisdis++;
         }
-    }
-    public static void bump(Coord c)
-    {
-        Console.CursorTop = y + 1;
-        Console.CursorLeft = x;
-        Console.WriteLine("                                                          ");
-        Console.CursorTop = y + 1;
-        Console.CursorLeft = x;
-        switch (c.getedgetype())
+        public static void reset_fight_print()
         {
-            case "wall":
-                Console.Write("you cannot walk through a wall");
-                break;
-            case "chest":
-                Console.Write("that is a chest, press e to interact");
-                break;
-            case "door":
-                Console.Write("that is a door, press e to interact");
-                break;
+            yowhatdafrickisdis = y;
         }
+
     }
-    public static void clear()
+
+    public static class BottomScreen
     {
-        Console.CursorTop = y;
-        Console.CursorLeft = x;
-        Console.WriteLine("                                                    ");
-        Console.WriteLine("                                                    ");
-        Console.CursorTop = y;
-        Console.CursorLeft = x;
+        private static int x = 1;
+        private static int y = 30;
+
+        public static void mov(ConsoleKey key)
+        {
+            clear();
+            Console.Write("player is facing in direction: ");
+            switch (key)
+            {
+                case ConsoleKey.W:
+                    Console.WriteLine("up");
+                    break;
+                case ConsoleKey.S:
+                    Console.WriteLine("down");
+                    break;
+                case ConsoleKey.D:
+                    Console.WriteLine("right");
+                    break;
+                case ConsoleKey.A:
+                    Console.WriteLine("left");
+                    break;
+            }
+        }
+        public static void bump(Coord c)
+        {
+            Console.CursorTop = y + 1;
+            Console.CursorLeft = x;
+            Console.WriteLine("                                                          ");
+            Console.CursorTop = y + 1;
+            Console.CursorLeft = x;
+            switch (c.getedgetype())
+            {
+                case "wall":
+                    Console.Write("you cannot walk through a wall");
+                    break;
+                case "chest":
+                    Console.Write("that is a chest, press e to interact");
+                    break;
+                case "door":
+                    Console.Write("that is a door, press e to interact");
+                    break;
+            }
+        }
+        public static void clear()
+        {
+            Console.CursorTop = y;
+            Console.CursorLeft = x;
+            Console.WriteLine("                                                    ");
+            Console.WriteLine("                                                    ");
+            Console.CursorTop = y;
+            Console.CursorLeft = x;
+        }
     }
 }
 

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -61,18 +62,36 @@ namespace Game_v2
         }
     }
 
-    public abstract class inventoryitem
+    public class inventoryitem
     {
-        public abstract string getname();
+        public virtual string getname()
+        {
+            return "";
+        }
 
-        public abstract int use();
+        public virtual int use()
+        {
+            return 100000000;
+        }
 
-        public abstract string getdescription();
+        public virtual string getdescription()
+        {
+            return "iamamawmiawimawm";
+        }
 
-        public abstract string getitemtype();
-        
+        public virtual string getitemtype()
+        {
+            return "basic item";
+        }
 
-        
+        public virtual int getattackstrength()
+        {
+            return 0;
+        }
+        public virtual bool usedup()
+        {
+            return false;
+        }
     }
 
     public class health_potion : inventoryitem
@@ -105,6 +124,14 @@ namespace Game_v2
         {
             return "healthpotion";
         }
+        public override int getattackstrength()
+        {
+            return 0;
+        }
+        public override bool usedup()
+        {
+            return used;
+        }
     }
 
     public class weapon : inventoryitem
@@ -136,6 +163,11 @@ namespace Game_v2
         public override string getitemtype()
         {
             return "weapon";
+        }
+        
+        public override int getattackstrength()
+        {
+            return attack;
         }
     }
 

@@ -64,11 +64,11 @@ namespace Game_v2
                         }
                         break;
                     case ConsoleKey.D:
-                        if (!inthisarea.isedge(x+1, y ))
+                        if (!inthisarea.isedge(x + 1, y))
                         {
                             Console.Write(" ");
                             x++;
-                            draw(); 
+                            draw();
                             return true;
 
                         }
@@ -78,7 +78,7 @@ namespace Game_v2
                         {
                             Console.Write(" ");
                             x--;
-                            draw(); 
+                            draw();
                             return true;
                         }
                         break;
@@ -96,19 +96,28 @@ namespace Game_v2
             switch (direction)
             {
                 case ConsoleKey.W:
-                    if (inthisarea.ischest(x, y - 1)) 
+                    if (inthisarea.ischest(x, y - 1))
                     {
                         return 1;
+                    }
+                    else if (inthisarea.isenemy(x, y - 1))
+                    {
+                        return 2;
                     }
                     else if (inthisarea.interact(x, (y - 1)))
                     {
                         return inthisarea.getdoorkey(x, (y - 1));
                     }
+                    
                     break;
                 case ConsoleKey.S:
                     if (inthisarea.ischest(x, y + 1))
                     {
                         return 1;
+                    }
+                    else if (inthisarea.isenemy(x, y + 1))
+                    {
+                        return 2;
                     }
                     else if (inthisarea.interact(x, (y + 1)))
                     {
@@ -120,9 +129,13 @@ namespace Game_v2
                     {
                         return 1;
                     }
+                    else if (inthisarea.isenemy(x + 1, y))
+                    {
+                        return 2;
+                    }
                     else if (inthisarea.interact(x + 1, y))
                     {
-                        return inthisarea.getdoorkey(x+1,y);
+                        return inthisarea.getdoorkey(x + 1, y);
                     }
                     break;
 
@@ -131,9 +144,13 @@ namespace Game_v2
                     {
                         return 1;
                     }
+                    else if (inthisarea.isenemy(x - 1, y))
+                    {
+                        return 2;
+                    }
                     else if (inthisarea.interact(x - 1, y))
                     {
-                        return inthisarea.getdoorkey(x -1 , y);
+                        return inthisarea.getdoorkey(x - 1, y);
                     }
                     break;
             }
@@ -145,54 +162,113 @@ namespace Game_v2
             Console.CursorLeft = x;
             Console.Write(icon);
         }
-
         public List<inventoryitem> chestinteract()
         {
             switch (direction)
             {
                 case ConsoleKey.W:
-                    return inthisarea.interactwithchest(x, y-1);
+                    return inthisarea.interactwithchest(x, y - 1);
                 case ConsoleKey.S:
                     return inthisarea.interactwithchest(x, y + 1);
                 case ConsoleKey.D:
-                    return inthisarea.interactwithchest(x+1,y);
+                    return inthisarea.interactwithchest(x + 1, y);
                 case ConsoleKey.A:
-                    return inthisarea.interactwithchest(x-1, y);
+                    return inthisarea.interactwithchest(x - 1, y);
 
             }
             return new List<inventoryitem>();
         }
+
+        public Warrior enemyinteract()
+        {
+            switch (direction)
+            {
+                case ConsoleKey.W:
+                    return inthisarea.interactwithenemy(x, y - 1);
+                case ConsoleKey.S:
+                    return inthisarea.interactwithenemy(x, y + 1);
+                case ConsoleKey.D:
+                    return inthisarea.interactwithenemy(x + 1, y);
+                case ConsoleKey.A:
+                    return inthisarea.interactwithenemy(x - 1, y);
+
+            }
+            return null;
+        }
     }
-    public class player
+    public class player : Warrior
     {
-        private int health;
         private inventory myinventory;
 
-        public player()
+        public player(string name) : base(name,0,0,0)
         {
             myinventory = new inventory();
+            attackdamage = myinventory.getattackpower();
         }
 
         public void addtoinventory(List<inventoryitem> p)
         {
-            foreach (inventoryitem item in p)
+            if (p != null)
             {
-                myinventory.additems(item);
+                foreach (inventoryitem item in p)
+                {
+                    myinventory.additems(item);
+                }
             }
         }
         public void inventoryprint()
         {
             RightScreen.print(myinventory.getitems(), myinventory.getweapons());
         }
+        public bool canheal()
+        {
+            List<inventoryitem> thisinventory  = myinventory.getitems();
+            foreach (inventoryitem item in thisinventory)
+            {
+                if (item.getitemtype() == "healthpotion")
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
+        public void heal()
+        {
+            List<inventoryitem> thisinventory = myinventory.getitems();
+            foreach (inventoryitem item in thisinventory)
+            {
+                if (item.getitemtype() == "healthpotion")
+                {
+                    addhealth(item.use());
+                    if (item.usedup()) myinventory.removeitems(item);
+                    break;
+                }
+            }
+        }
+
+        public void addhealth(int i)
+        {
+            current_health += i;
+            if (current_health > max_health)
+            {
+                current_health = max_health;
+            }
+        }
+        public override void attack(Warrior enemy, int diceroll)
+        {
+            attackdamage = myinventory.getattackpower();
+            enemy.attacked(diceroll, attackdamage);
+        }
+
     }
-    public class  inventory
+    public class inventory
     {
         protected List<inventoryitem> items;
         protected Stack<inventoryitem> weapons;
         public inventory()
         {
             items = new List<inventoryitem>();
-            items.Add(new health_potion(10, 1));
+            items.Add(new health_potion(4000, 1));
             weapons = new Stack<inventoryitem>(100);
             weapons.Push(new weapon("fists", 1, "hand", "blunt"));
         }
@@ -207,6 +283,16 @@ namespace Game_v2
                 items.Add(i);
             }
         }
+        public void removeitems(inventoryitem ite)
+        {
+            for (int i = 0; i < items.Count; i++)
+            {
+                if (items[i].getitemtype() == ite.getitemtype())
+                {
+                    items.RemoveAt(i);
+                }
+            }
+        }
         public string getweaponinhand()
         {
             return weapons.Peek().getdescription();
@@ -215,7 +301,10 @@ namespace Game_v2
         {
             weapons.Pop();
         }
-        
+        public int getattackpower()
+        {
+            return weapons.Peek().getattackstrength();
+        }
         public List<inventoryitem> getitems()
         {
             return items;
@@ -224,6 +313,71 @@ namespace Game_v2
         public Stack<inventoryitem> getweapons()
         {
             return weapons;
+        }
+    }
+    public class Warrior
+    {
+        protected int current_health, max_health;
+        protected string name;
+        protected int attackdamage;
+        private enemy me;
+        public Warrior(string myname,int attackpower,int x , int y)
+        {
+            name = myname;
+            max_health = 100;
+            current_health = max_health;
+            attackdamage = attackpower;
+            me = new enemy(x,y);
+        }
+        public int getHealth()
+        {
+            return current_health;
+        }
+        public string getName()
+        {
+            return name;
+        }
+        public bool isalive()
+        {
+            if (current_health > 0) return true;
+            return false;
+        }
+        public virtual void attack(Warrior enemy, int diceroll)
+        {
+            
+            enemy.attacked(diceroll, attackdamage);
+        }
+        public void attacked(int diceroll, int attackdamage)
+        {
+            current_health -= (diceroll * attackdamage);
+        }
+        public enemy getlocation()
+        {
+            return me;
+        }
+    }
+    public class dice
+    {
+        private int sides;
+        Random rnd;
+
+        public dice()
+        {
+            sides = 6;
+            rnd = new Random();
+        }
+        public dice(int insides)
+        {
+            sides = insides;
+            rnd = new Random();
+        }
+        public int GetSidesCount()
+        {
+            return sides;
+        }
+        public int roll()
+        {
+            return rnd.Next(1, (sides + 1));
         }
     }
 }
