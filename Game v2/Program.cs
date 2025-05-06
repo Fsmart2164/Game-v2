@@ -396,6 +396,8 @@ namespace Game_v2
                         {
                             break;
                         }
+                        maps[x].printmap();
+                        myplayer.draw();
                     }
                     else if (key != 0)                        // doorkey
                     {
@@ -450,8 +452,8 @@ namespace Game_v2
                 }
             }
             bool win = whoWon(mc, enemy);
-            RightScreen.clear();
             RightScreen.reset_fight_print();
+            Console.Clear();
             return win;
         }
         static bool whoWon(Warrior p1, Warrior p2)

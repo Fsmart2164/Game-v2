@@ -156,7 +156,7 @@ namespace Game_v2
             }
             return 0;
         }
-        private void draw()
+        public void draw()
         {
             Console.CursorTop = y;
             Console.CursorLeft = x;

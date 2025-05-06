@@ -109,10 +109,13 @@ namespace Game_v2
             }
             foreach (Warrior w in enemys)
             {
-                Coord c = w.getlocation();
-                Console.CursorLeft = c.getx();
-                Console.CursorTop = c.gety();
-                Console.Write(c.icon());
+                if (w.isalive())
+                {
+                    Coord c = w.getlocation();
+                    Console.CursorLeft = c.getx();
+                    Console.CursorTop = c.gety();
+                    Console.Write(c.icon());
+                }
             }
         }
 
