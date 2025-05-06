@@ -51,8 +51,15 @@ namespace Game_v2
             Console.CursorTop++;
             foreach (inventoryitem strings in inventory)
             {
-                Console.Write(" :  ");
-                Console.Write(strings.getdescription());
+                if (strings.getitemtype() == "note")
+                {
+                    Console.Write(" :  A note");
+                }
+                else
+                {
+                    Console.Write(" :  ");
+                    Console.Write(strings.getdescription());
+                }
                 Console.CursorLeft = x;
                 Console.CursorTop++;
                 i++;

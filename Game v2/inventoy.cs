@@ -115,7 +115,6 @@ namespace Game_v2
             if (amount == 0) used = true;
             return strength;
         }
-
         public override string getdescription()
         {
             return (amount+" "+getname() + " with a potency of " + strength);
@@ -171,4 +170,25 @@ namespace Game_v2
         }
     }
 
+    public class note:inventoryitem
+    {
+        private string text;
+
+        public note(string text)
+        {
+            this.text = text;
+        }
+        public override string getdescription()
+        {
+            return text;
+        }
+        public override string getitemtype()
+        {
+            return "note";
+        }
+        public override string getname()
+        {
+            return "a note";
+        }
+    }
 }
