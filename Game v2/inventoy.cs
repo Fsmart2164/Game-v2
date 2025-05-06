@@ -36,7 +36,7 @@ namespace Game_v2
         }
         public override string icon()
         {
-            return "M";
+            return "C";
         }
         public override string getedgetype()
         {
