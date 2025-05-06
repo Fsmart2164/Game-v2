@@ -79,7 +79,7 @@ namespace Game_v2
                 new edge(5,8,"-"),
                 new edge(6,8,"-"),
                 new edge(7,8,"-"),
-            };  // finished
+            };  // finished           1
             Area map1 = new Area(startcords);
 
             List<Coord> secondcoords = new List<Coord>()
@@ -175,7 +175,7 @@ namespace Game_v2
 
                 new edge(2,16,"|"),
                 new edge(22,16,"|"),
-            };// finished
+            };// finished           2
             Area map2 = new Area(secondcoords);
 
             List<Coord> sighthcoords = new List<Coord>()
@@ -202,7 +202,7 @@ namespace Game_v2
 
                 new edge(4,6,"-"),
                 new edge(5,6,"-"),
-            };// finished
+            };// finished           3
             Area map3 = new Area(sighthcoords);
 
             List<Coord> fithcoords = new List<Coord>()
@@ -248,7 +248,7 @@ namespace Game_v2
                 new edge(15,5,"-"),
 
                 new edge(1,6,"|"),
-                new chest(2,6,new List<inventoryitem> {new weapon("broadsword",5,"straitsword","slash")}),
+                new chest(2,6,new List<inventoryitem> {new weapon("broadsword",7,"straitsword","slash")}),
                 new edge(3,6,"|"),
                 new edge(4,6,"-"),
                 new edge(6,6,"|"),
@@ -264,7 +264,7 @@ namespace Game_v2
                 new edge(6,7,"|"),
                 new edge(9,7,"|"),
                 new edge(12,7,"|"),
-                new chest(13,7,new List<inventoryitem> {new health_potion(10,2)}),
+                new chest(13,7,new List<inventoryitem> {new health_potion(10,2),new note("seek up first then down")}),
                 new edge(14,7,"|"),
                 new edge(16,7,"-"),
 
@@ -335,7 +335,7 @@ namespace Game_v2
                 new edge(13,14,"-"),
                 new edge(14,14,"-"),
                 new edge(15,14,"-"),
-            };  // finished
+            };  // finished           5
             Area map4 = new Area(fithcoords);
 
             //enemys
