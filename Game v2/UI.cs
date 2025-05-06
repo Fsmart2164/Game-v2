@@ -206,6 +206,11 @@ namespace Game_v2
                 Thread.Sleep(10);
             }
             yowhatdafrickisdis++;
+            if (yowhatdafrickisdis > 50) 
+            { 
+                reset_fight_print();
+                RightScreen.clear();
+            }
         }
         public static void reset_fight_print()
         {

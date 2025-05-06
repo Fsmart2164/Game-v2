@@ -451,6 +451,7 @@ namespace Game_v2
             }
             bool win = whoWon(mc, enemy);
             RightScreen.clear();
+            RightScreen.reset_fight_print();
             return win;
         }
         static bool whoWon(Warrior p1, Warrior p2)
