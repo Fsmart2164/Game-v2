@@ -832,7 +832,7 @@ namespace Game_v2
             map4.add(new Warrior("undead soldier", 3, 11, 4, 50));
             map4.add(new Warrior("undead soldier", 3, 2, 8, 50));
             map4.add(new Warrior("undead soldier", 3, 13, 10, 50));
-            map4.add(new Warrior("perc goblin", 12, 7, 13, 30));
+            map4.add(new Warrior("goblin", 12, 7, 13, 30));
             map6.add(new Warrior("mark", 12, 9, 9, 125));
 
             map5.add(new Warrior("hollow", 6, 6, 11, 100));
