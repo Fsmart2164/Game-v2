@@ -1,15 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Net.Http.Headers;
 
 namespace Game_v2
 {
-    //  ctrl m, ctrl l to minimise stuff
     internal class Program
     {
         static string Setup()
         {
             Console.CursorVisible = true;
-            Console.WriteLine("welcome to the adventure game \r\nuse W A S D to move \r\npress tab to open inventory \r\npress e to interact with an object\r\nyour player is p\r\nenemys are E\r\nchests are M\r\nwalls look like walls and doors are stick out of walls\r\nplease enter your name");
+            Console.WriteLine("welcome to the adventure game \r\nuse W A S D to move\r\nmake sure you dont hold down any keys \r\npress tab to open inventory \r\npress e to interact with an object\r\nyour player is p\r\nenemys are E\r\nchests are M\r\nwalls look like walls and doors are stick out of walls\r\nplease enter your name");
             string name = Console.ReadLine();
             Console.Clear();
             Console.CursorVisible = false;
@@ -52,7 +52,7 @@ namespace Game_v2
                 new edge(2,3,"|"),
                 new edge(8,3,"|"),
                 new edge(9,3,"|"),
-                new chest(10,3,new List<inventoryitem> {new health_potion(30,2),new note("seek downfall")}),
+                new chest(10,3,new List<inventoryitem> {new health_potion(30,2)}),
                 new edge(11,3,"|"),
 
                 new edge(2,4,"|"),
@@ -79,7 +79,7 @@ namespace Game_v2
                 new edge(5,8,"-"),
                 new edge(6,8,"-"),
                 new edge(7,8,"-"),
-            };  // finished           1
+            };  // finished
             Area map1 = new Area(startcords);
 
             List<Coord> secondcoords = new List<Coord>()
@@ -175,7 +175,7 @@ namespace Game_v2
 
                 new edge(2,16,"|"),
                 new edge(22,16,"|"),
-            };// finished           2
+            };// finished
             Area map2 = new Area(secondcoords);
 
             List<Coord> sighthcoords = new List<Coord>()
@@ -202,7 +202,7 @@ namespace Game_v2
 
                 new edge(4,6,"-"),
                 new edge(5,6,"-"),
-            };// finished           3
+            };// finished
             Area map3 = new Area(sighthcoords);
 
             List<Coord> fithcoords = new List<Coord>()
@@ -248,7 +248,7 @@ namespace Game_v2
                 new edge(15,5,"-"),
 
                 new edge(1,6,"|"),
-                new chest(2,6,new List<inventoryitem> {new weapon("broadsword",7,"straitsword","slash")}),
+                new chest(2,6,new List<inventoryitem> {new weapon("broadsword",5,"straitsword","slash")}),
                 new edge(3,6,"|"),
                 new edge(4,6,"-"),
                 new edge(6,6,"|"),
@@ -264,9 +264,9 @@ namespace Game_v2
                 new edge(6,7,"|"),
                 new edge(9,7,"|"),
                 new edge(12,7,"|"),
-                new chest(13,7,new List<inventoryitem> {new health_potion(10,2),new note("seek up first then down")}),
+                new chest(13,7,new List<inventoryitem> {new health_potion(10,2)}),
                 new edge(14,7,"|"),
-                new edge(16,7,"-"),
+                new edge(16,7,"|"),
 
                 new edge(1,8,"|"),
                 new edge(3,8,"-"),
@@ -313,6 +313,7 @@ namespace Game_v2
 
                 new door(1,13,53),       //door
                 new edge(0,13," "),      //doorback
+                new edge(1,14," "),
                 new edge(5,13,"|"),
                 new edge(9,13,"|"),
                 new edge(11,13,"-"),
@@ -335,9 +336,496 @@ namespace Game_v2
                 new edge(13,14,"-"),
                 new edge(14,14,"-"),
                 new edge(15,14,"-"),
-            };  // finished           5
+            };  // finished
             Area map4 = new Area(fithcoords);
 
+            List<Coord> fiurthcoord = new List<Coord>()
+            {
+                new edge(2,1,"-"),
+                new door(3,1,47),      // door
+                new edge(3,0," "),     // door back
+                new edge(4,1,"-"),
+                new edge(5,1,"-"),
+                new edge(6,1,"-"),
+                new edge(7,1,"-"),
+                new edge(8,1,"-"),
+                new edge(9,1,"-"),
+                new edge(10,1,"-"),
+                new edge(11,1,"-"),
+
+                new edge(1,2,"|"),
+                new chest(6,2,new List<inventoryitem>{new weapon("great club",12,"colosal weapon","blunt")}),
+                new edge(7,2,"|"),
+                new edge(12,2,"|"),
+
+                new edge(1,3,"|"),
+                new edge(2,3,"-"),
+                new edge(3,3,"-"),
+                new edge(6,3,"-"),
+                new edge(7,3,"|"),
+                new edge(9,3,"-"),
+                new edge(10,3,"-"),
+                new edge(12,3,"|"),
+
+                new edge(1,4,"|"),
+                new edge(7,4,"|"),
+                new edge(10,4,"|"),
+                new edge(12,4,"|"),
+
+                new edge(1,5,"|"),
+                new edge(3,5,"-"),
+                new edge(4,5,"-"),
+                new edge(5,5,"-"),
+                new edge(6,5,"|"),
+                new edge(9,5,"-"),
+                new edge(10,5,"-"),
+                new edge(12,5,"|"),
+
+                new edge(1,6,"|"),
+                new edge(6,6,"|"),
+                new edge(8,6,"|"),
+                new edge(12,6,"|"),
+
+                new edge(1,7,"|"),
+                new edge(2,7,"-"),
+                new edge(3,7,"-"),
+                new edge(4,7,"-"),
+                new edge(6,7,"|"),
+                new edge(8,7,"|"),
+                new edge(10,7,"-"),
+                new edge(11,7,"-"),
+                new edge(12,7,"|"),
+
+                new edge(1,8,"|"),
+                new edge(6,8,"|"),
+                new edge(8,8,"|"),
+                new edge(12,8,"|"),
+
+                new edge(1,9,"|"),
+                new edge(3,9,"-"),
+                new edge(4,9,"-"),
+                new edge(5,9,"-"),
+                new edge(6,9,"|"),
+                new edge(9,9,"-"),
+                new edge(10,9,"-"),
+                new edge(12,9,"|"),
+
+                new edge(1,10,"|"),
+                new edge(5,10,"|"),
+                new edge(8,10,"|"),
+                new edge(12,10,"|"),
+
+                new edge(1,11,"|"),
+                new edge(2,11,"-"),
+                new edge(3,11,"-"),
+                new edge(5,11,"|"),
+                new edge(7,11,"-"),
+                new edge(8,11,"|"),
+                new edge(10,11,"-"),
+                new edge(11,11,"-"),
+                new edge(12,11,"|"),
+
+                new edge(1,12,"|"),
+                new edge(5,12,"|"),
+                new edge(8,12,"|"),
+                new edge(12,12,"|"),
+
+                new edge(1,13,"|"),
+                new edge(3,13,"-"),
+                new edge(4,13,"|"),
+                new edge(6,13,"-"),
+                new edge(8,13,"|"),
+                new edge(9,13,"-"),
+                new edge(10,13,"-"),
+                new edge(12,13,"|"),
+
+                new edge(1,14,"|"),
+                new edge(4,14,"|"),
+                new edge(8,14,"|"),
+                new edge(12,14,"|"),
+
+                new edge(1,15,"|"),
+                new edge(4,15,"|"),
+                new edge(8,15,"|"),
+                new edge(10,15,"-"),
+                new edge(11,15,"-"),
+                new edge(12,15,"|"),
+
+                new edge(1,16,"|"),
+                new edge(2,16,"-"),
+                new edge(5,16,"-"),
+                new edge(7,16,"-"),
+                new edge(8,16,"|"),
+                new edge(12,16,"|"),
+
+                new edge(1,17,"|"),
+                new edge(5,17,"|"),
+                new edge(9,17,"-"),
+                new edge(10,17,"|"),
+                new edge(12,17,"|"),
+
+                new edge(1,18,"|"),
+                new edge(3,18,"-"),
+                new edge(4,18,"-"),
+                new edge(5,18,"|"),
+                new edge(6,18,"-"),
+                new edge(7,18,"-"),
+                new edge(9,18,"|"),
+                new edge(10,18,"|"),
+                new edge(12,18,"|"),
+
+                new edge(1,19,"|"),
+                new edge(9,19,"|"),
+                new edge(12,19,"|"),
+
+                new edge(2,20,"-"),
+                new edge(3,20,"-"),
+                new edge(4,20,"-"),
+                new edge(5,20,"-"),
+                new edge(6,20,"-"),
+                new edge(7,20,"-"),
+                new edge(8,20,"-"),
+                new edge(9,20,"-"),
+                new door(10,20,24),      // door
+                new edge(10,21," "),     // door back
+                new edge(11,20,"-"),
+            }; // finished
+            Area map5 = new Area(fiurthcoord);
+
+            List<Coord> sevencoord = new List<Coord>()
+            {
+                new edge(2,1,"-"),
+                new edge(3,1,"-"),
+                new edge(4,1,"-"),
+                new edge(6,1,"-"),
+                new edge(7,1,"-"),
+                new edge(8,1,"-"),
+
+                new edge(1,2,"|"),
+                new edge(5,2,"|"),
+                new edge(9,2,"|"),
+
+                new edge(1,3,"|"),
+                new door(9,3,78),          // door
+                new edge(10,3," "),        // door back
+
+                new edge(1,4,"|"),
+                new edge(5,4,"|"),
+                new edge(9,4,"|"),
+
+                new edge(2,5,"-"),
+                new edge(4,5,"-"),
+                new edge(6,5,"-"),
+                new edge(7,5,"-"),
+                new edge(8,5,"-"),
+
+                new edge(1,6,"|"),
+                new edge(5,6,"|"),
+
+                new edge(1,7,"|"),
+                new edge(5,7,"|"),
+                new edge(8,7,"-"),
+                new edge(9,7,"-"),
+                new edge(10,7,"-"),
+
+                new edge(1,8,"|"),
+                new edge(5,8,"|"),
+                new edge(7,8,"|"),
+                new edge(11,8,"|"),
+
+                new edge(2,9,"-"),
+                new edge(4,9,"-"),
+                new door(7,9,89),          // door
+                new edge(6,9," "),          // door back
+                new chest(10,9,new List<inventoryitem>{new health_potion(120,2),new note("this is the wrong way to go btw")}),
+                new edge(11,9,"|"),
+
+                new edge(1,10,"|"),
+                new edge(5,10,"|"),
+                new edge(7,10,"|"),
+                new edge(11,10,"|"),
+
+                new edge(1,11,"|"),
+                new edge(5,11,"|"),
+                new edge(8,11,"-"),
+                new edge(9,11,"-"),
+                new edge(10,11,"-"),
+
+                new edge(1,12,"|"),
+                new edge(5,12,"|"),
+
+                new edge(2,13,"-"),
+                new edge(4,13,"-"),
+
+                new edge(1,14,"|"),
+                new edge(5,14,"|"),
+
+                new edge(1,15,"|"),
+                new edge(5,15,"|"),
+
+                new edge(1,16,"|"),
+                new edge(5,16,"|"),
+
+                new edge(2,17,"-"),
+                new door(3,17,47),        // door
+                new edge(3,18," "),       // doorback
+                new edge(4,17,"-"),
+            };  // finished
+            Area map6 = new Area(sevencoord);
+
+            List<Coord> lockcoords = new List<Coord>()
+            {
+                new edge(4,1,"-"),
+                new door(5,1,53),           // door
+                new edge(5,0," "),          // doorback
+                new edge(6,1,"-"),
+
+                new edge(4,2,"|"),
+                new edge(6,2,"|"),
+
+                new edge(4,3,"|"),
+                new edge(6,3,"|"),
+
+                new edge(4,4,"|"),
+                new edge(6,4,"|"),
+
+                new edge(3,5,"-"),
+                new edge(7,5,"-"),
+
+                new edge(2,6,"-"),
+                new edge(8,6,"-"),
+
+                new edge(1,7,"|"),
+                new edge(9,7,"|"),
+
+                new edge(1,8,"|"),
+                new edge(9,8,"|"),
+
+                new edge(1,9,"|"),
+                new chest(5,9,new List<inventoryitem>{new health_potion(50,3),new weapon("potion sword",-1,"balloon","squish")}),
+                new edge(9,9,"|"),
+
+                new edge(1,10,"|"),
+                new edge(9,10,"|"),
+
+                new edge(2,11,"-"),
+                new edge(8,11,"-"),
+
+                new edge(3,12,"-"),
+                new edge(7,12,"-"),
+
+                new edge(4,13,"-"),
+                new edge(5,13,"-"),
+                new edge(6,13,"-"),
+            };  // finished
+            Area map7 = new Area(lockcoords);
+
+            List<Coord> fakecoords = new List<Coord>()
+            {
+                new edge(2,1,"|"),
+                new edge(3,1,"-"),
+                new edge(4,1,"-"),
+                new edge(5,1,"-"),
+                new edge(6,1,"-"),
+                new edge(7,1,"-"),
+                new edge(8,1,"-"),
+                new edge(9,1,"-"),
+                new edge(10,1,"|"),
+                new edge(11,1,"-"),
+                new door(12,1,54),           // door
+                new edge(12,0," "),          // doorback
+                new edge(13,1,"-"),
+                new edge(14,1,"|"),
+
+                new edge(2,2,"|"),
+                new edge(14,2,"|"),
+
+                new edge(2,3,"|"),
+                new chest(3,3,new List<inventoryitem>{new weapon("curved greatsword",9,"greatsword","slash")}),
+                new edge(10,3,"|"),
+                new edge(14,3,"|"),
+
+                new edge(2,4,"|"),
+                new edge(3,4,"-"),
+                new edge(4,4,"-"),
+                new edge(5,4,"-"),
+                new edge(7,4,"-"),
+                new edge(8,4,"-"),
+                new edge(9,4,"-"),
+                new edge(10,4,"|"),
+                new edge(11,4,"-"),
+                new edge(12,4,"-"),
+                new edge(13,4,"-"),
+                new edge(14,4,"|"),
+
+                new edge(2,5,"|"),
+                new edge(10,5,"|"),
+
+                new edge(2,6,"|"),
+                new edge(10,6,"|"),
+
+                new edge(2,7,"|"),
+                new edge(3,7,"-"),
+                new edge(4,7,"-"),
+                new edge(5,7,"-"),
+                new edge(7,7,"-"),
+                new edge(8,7,"-"),
+                new edge(9,7,"-"),
+                new edge(10,7,"|"),
+
+                new edge(2,8,"|"),
+                new edge(10,8,"|"),
+
+                new edge(2,9,"|"),
+                new chest(3,9,new List<inventoryitem>{new health_potion(100,1),new note("seek below")}),
+                new edge(10,9,"|"),
+
+                new edge(2,10,"|"),
+                new edge(3,10,"-"),
+                new edge(4,10,"-"),
+                new edge(5,10,"-"),
+                new door(6,10,98),      //door
+                new edge(6,11," "),     //doorback
+                new edge(7,10,"-"),
+                new edge(8,10,"-"),
+                new edge(9,10,"-"),
+                new edge(10,10,"|"),
+            };  // finished
+            Area map8 = new Area(fakecoords);
+
+            List<Coord> nearlylast = new List<Coord>()
+            {
+                new edge(2,1,"-"),
+                new edge(3,1,"-"),
+                new edge(5,1,"-"),
+                new door(6,1,98),     // door
+                new edge(6,0," "),    // doorback
+                new edge(7,1,"-"),
+                new edge(9,1,"-"),
+                new edge(10,1,"-"),
+
+                new edge(1,2,"|"),
+                new edge(4,2,"|"),
+                new edge(8,2,"|"),
+                new edge(11,2,"|"),
+
+                new edge(1,3,"|"),
+                new edge(4,3,"|"),
+                new edge(8,3,"|"),
+                new edge(11,3,"|"),
+
+                new edge(1,4,"|"),
+                new chest(2,4,new List<inventoryitem>{new health_potion(30,3)}),
+                new chest(10,4,new List<inventoryitem>{new note("nothing")}),
+                new edge(11,4,"|"),
+
+                new edge(1,5,"|"),
+                new edge(4,5,"|"),
+                new edge(8,5,"|"),
+                new edge(11,5,"|"),
+
+                new edge(1,6,"|"),
+                new edge(4,6,"|"),
+                new edge(8,6,"|"),
+                new edge(11,6,"|"),
+
+                new edge(2,7,"-"),
+                new edge(3,7,"-"),
+                new edge(5,7,"-"),
+                new edge(7,7,"-"),
+                new edge(9,7,"-"),
+                new edge(10,7,"-"),
+
+                new edge(4,8,"|"),
+                new edge(8,8,"|"),
+
+                new edge(4,9,"|"),
+                new edge(8,9,"|"),
+
+                new edge(5,10,"-"),
+                new door(6,10,100),         // door
+                new edge(6,11," "),         // doorback
+                new edge(6,11," "),
+                new edge(7,10,"-"),
+            };
+            Area map9 = new Area(nearlylast);
+
+            List<Coord> last = new List<Coord>()
+            {
+                new edge(4,1,"-"),
+                new door(5,1,100),     // door
+                new edge(5,0," "),     // doorback
+                new edge(6,1,"-"),
+
+                new edge(4,2,"|"),
+                new edge(6,2,"|"),
+
+                new edge(4,3,"|"),
+                new edge(6,3,"|"),
+
+                new edge(4,4,"|"),
+                new edge(6,4,"|"),
+
+                new edge(3,5,"-"),
+                new chest(4,5,new List<inventoryitem>{new note("turn back")}),
+                new chest(6,5,new List<inventoryitem>{new note("flee while you still can")}),
+                new edge(7,5,"-"),
+
+                new edge(2,6,"-"),
+                new edge(8,6,"-"),
+
+                new edge(1,7,"-"),
+                new edge(9,7,"-"),
+
+                new edge(2,8,"-"),
+                new edge(3,8,"-"),
+                new edge(4,8,"-"),
+                new door(5,8,101),
+                new edge(6,8,"-"),
+                new edge(7,8,"-"),
+                new edge(8,8,"-"),
+            };
+            Area map10 = new Area(last);
+
+            List<Coord> mark = new List<Coord>()
+            {
+                new edge(2,1,"-"),
+
+                new edge(1,2,"|"),
+                new door(3,2,89),         // door
+                new edge(3,1," "),
+                new edge(4,2," "),
+                new edge(5,2,"-"),
+                new edge(6,2,"-"),
+
+                new edge(1,3,"|"),
+                new edge(3,3,"|"),
+                new edge(4,3,"|"),
+                new edge(7,3,"|"),
+
+                new edge(1,4,"|"),
+                new edge(3,4,"|"),
+                new door(4,4,78),
+                new edge(7,4,"|"),
+
+                new edge(1,5,"|"),
+                new edge(3,5,"|"),
+                new edge(4,5,"|"),
+                new edge(7,5,"|"),
+
+                new edge(1,6,"|"),
+                new edge(3,6,"-"),
+                new edge(6,6,"|"),
+
+                new edge(1,7,"|"),
+                new edge(6,7,"|"),
+
+                new edge(2,8,"-"),
+                new edge(3,8,"-"),
+                new edge(4,8,"-"),
+                new edge(5,8,"-"),
+            };
+            Area map11 = new Area(mark);
             //enemys
             map2.add(new Warrior("asylum demon", 10, 12, 12,100));
             map4.add(new Warrior("undead soldier", 3, 4, 2, 50));
@@ -345,8 +833,17 @@ namespace Game_v2
             map4.add(new Warrior("undead soldier", 3, 2, 8, 50));
             map4.add(new Warrior("undead soldier", 3, 13, 10, 50));
             map4.add(new Warrior("perc goblin", 12, 7, 13, 30));
+            map6.add(new Warrior("mark", 12, 9, 9, 125));
 
-
+            map5.add(new Warrior("hollow", 6, 6, 11, 100));
+            map7.add(new Warrior("potion goblin", 3, 5, 3, 300));
+            map8.add(new Warrior("jailer", 7, 6,4 , 100));
+            map8.add(new Warrior("jailer", 7, 6, 6, 90));
+            map8.add(new Warrior("jailer", 7, 6, 9, 120));
+            map9.add(new Warrior("misbegotten", 8, 4, 4, 160));
+            map9.add(new Warrior("misbegotten", 8, 8, 4, 160));
+            map9.add(new Warrior("misbegotten", 8, 6, 7, 150));
+            map10.add(new Warrior("living failures",18,5,7,300));
 
 
             // adding to main maps
@@ -355,7 +852,13 @@ namespace Game_v2
             maps.Add(map2);
             maps.Add(map3);
             maps.Add(map4);
-
+            maps.Add(map5);
+            maps.Add(map6);
+            maps.Add(map7);
+            maps.Add(map8);
+            maps.Add(map9);
+            maps.Add(map10);
+            maps.Add(map11);
             return maps;
         }
         static void Main(string[] args)
@@ -393,12 +896,23 @@ namespace Game_v2
                     else if (key == 2)                        // enemy
                     {
                         Warrior foe = myplayer.enemyinteract();
+                        
                         if (fight(me, foe))
                         {
                             break;
                         }
-                        maps[x].printmap();
-                        myplayer.draw();
+                        
+                    }
+                    else if (key == 101)
+                    {
+                        Console.Clear();
+                        Console.ForegroundColor = ConsoleColor.Yellow;
+                        Console.WriteLine("you escaped");
+
+                        while (true)
+                        {
+                            Console.ReadKey(true);
+                        }
                     }
                     else if (key != 0)                        // doorkey
                     {
@@ -409,6 +923,12 @@ namespace Game_v2
                         myplayer.changearea(teleport.x, teleport.y, maps[x]);
                         howmany_after_tp = 0;
                     }
+                    if (key == 2)
+                    {
+                        maps[x].printmap();
+                        myplayer.draw();
+                    }
+                    
 
                 }
                 if (input == ConsoleKey.Tab)
@@ -426,7 +946,18 @@ namespace Game_v2
                 if (mov) howmany_after_tp++;
             }
             Console.Clear();
-            Console.WriteLine("u died");
+            Console.ForegroundColor= ConsoleColor.Red;
+            while (true)
+            {
+                Console.Write("u died");
+                if (Console.CursorLeft == 100)
+                {
+                    Console.CursorTop++;
+                    Console.CursorLeft = 0;
+                }
+                if (Console.CursorTop == 60) break;
+            }
+           
         }
         static bool fight(player mc, Warrior enemy)
         {
@@ -447,14 +978,25 @@ namespace Game_v2
 
                 if (mc.canheal() && mc.isalive())
                 {
-                    RightScreen.print("would you like to heal? y/n");
-                    char intput = Console.ReadKey(true).KeyChar;
-                    if (intput == 'y') mc.heal();
+                    while (true)
+                    {
+                        RightScreen.print("would you like to heal? y/n");
+                        ConsoleKey intput = Console.ReadKey(true).Key;
+                        if (intput == ConsoleKey.Y)
+                        {
+                            mc.heal();
+                            break;
+                        }
+                        else if (intput == ConsoleKey.N)
+                        {
+                            break;
+                        }
+                    }
                 }
             }
             bool win = whoWon(mc, enemy);
+            RightScreen.clear();
             RightScreen.reset_fight_print();
-            Console.Clear();
             return win;
         }
         static bool whoWon(Warrior p1, Warrior p2)

@@ -235,12 +235,12 @@ namespace Game_v2
         public void heal()
         {
             List<inventoryitem> thisinventory = myinventory.getitems();
-            foreach (inventoryitem item in thisinventory)
+            for (int i = 0; i < thisinventory.Count; i++)
             {
-                if (item.getitemtype() == "healthpotion")
+                if (thisinventory[i].getitemtype() == "healthpotion")
                 {
-                    addhealth(item.use());
-                    if (item.usedup()) myinventory.removeitems(item);
+                    addhealth(thisinventory[i].use());
+                    if (thisinventory[i].usedup()) myinventory.removeitems(thisinventory[i]);
                     break;
                 }
             }
@@ -289,7 +289,7 @@ namespace Game_v2
             {
                 if (items[i].getitemtype() == ite.getitemtype())
                 {
-                    items.RemoveAt(i);
+                    items.Remove(items[i]);
                 }
             }
         }

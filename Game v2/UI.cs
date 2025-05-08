@@ -210,14 +210,16 @@ namespace Game_v2
             foreach (char c in s)
             {
                 Console.Write(c);
-                Thread.Sleep(10);
+                Thread.Sleep(3);
             }
             yowhatdafrickisdis++;
             if (yowhatdafrickisdis > 50) 
             { 
                 reset_fight_print();
                 RightScreen.clear();
+                RightScreen.print(s);
             }
+
         }
         public static void reset_fight_print()
         {
